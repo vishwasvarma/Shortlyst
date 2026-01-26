@@ -1,21 +1,7 @@
-# Shortlyst
-Shortlyst JD-based resume screening web app that combines simple rules and AI insights to help shortlist candidates more fairly and efficiently.
-Shortlyst is a web app that helps screen resumes based on a specific Job Description (JD).
+Shortlyst is a JD‑based resume screening web application that combines simple rule‑based checks and AI insights to help shortlist candidates more fairly and efficiently.
 
-Most resume screening tools use the same rules for every role, which often leads to bad shortlists or unfair rejections. Shortlyst fixes this by checking each resume only against what the job actually needs.
+Most resume screening tools apply the same rules to every role, which often results in poor shortlists or unfair rejections. Shortlyst solves this problem by evaluating each resume only against the specific Job Description (JD), ensuring that candidates are assessed based on what the job actually requires.
 
-The app lets a user upload a Job Description and candidate resumes. It reads the text, finds the important skills mentioned in the JD, and compares them with the skills found in each resume. Basic rules are applied first, such as checking for required skills, overall skill match, education details, and whether the candidate has a GitHub or portfolio link.
+The app allows users to upload a Job Description and multiple candidate resumes. It extracts text from these inputs, identifies important skills mentioned in the JD, and compares them with the skills found in each resume. Before using AI, the system applies clear rule‑based checks such as verifying required skills, calculating overall skill match, checking education details, and detecting GitHub or portfolio links.
 
-To go beyond simple matching, Shortlyst also uses AI to explain the fit. The AI looks at the resume in the context of the JD and points out strengths, missing areas, and projects that are relevant to the job. The AI is used to give helpful insights, not to make the final decision.
-
-Based on these checks, each candidate is marked as:
-
-Shortlisted – good match for the role
-
-Rejected – clear mismatch
-
-Review Later – partial or unclear match
-
-Only the “Review Later” profiles need human review, which saves time and effort.
-
-Shortlyst is built using Python and Streamlit and focuses on being clear, fair, and easy to understand. The goal is to make resume screening smarter while still keeping humans in control.
+To go beyond basic matching, Shortlyst uses AI to explain the resume–JD fit. The AI analyzes the resume in the context of the JD and highlights strengths, missing skills, and projects that are relevant to the role. The AI is used only to provide insights and explanations, not to make final decisions.
