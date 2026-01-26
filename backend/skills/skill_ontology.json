@@ -1,0 +1,7 @@
+{
+  "python": ["python"],
+  "sql": ["sql"],
+  "flask": ["flask"],
+  "machine learning": ["machine learning", "ml"],
+  "git": ["git", "github"]
+}

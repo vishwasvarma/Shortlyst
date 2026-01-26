@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<h2>Results</h2>
+
+{% for r in results %}
+<hr />
+<p><b>Decision:</b> {{ r.decision }}</p>
+<p><b>Score:</b> {{ r.score }}%</p>
+<p><b>Matched:</b> {{ r.matched }}</p>
+<p><b>Missing:</b> {{ r.missing }}</p>
+{% endfor %} {% endblock %}

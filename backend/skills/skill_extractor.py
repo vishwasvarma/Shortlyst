@@ -5,8 +5,4 @@ def load_skills():
         return json.load(f)
 
 def extract_skills(text, ontology):
-    found = []
-    for skill, keys in ontology.items():
-        if any(k in text for k in keys):
-            found.append(skill)
-    return found
+    return [s for s, keys in ontology.items() if any(k in text for k in keys)]
