@@ -1,17 +1,21 @@
-from flask import Flask, render_template, request, redirect, session
-from ai.ai_analyzer import analyze_resume
-
+from flask import Flask, render_template, request, redirect, session, jsonify
+from flask_cors import CORS
 import json
 import os
 
+# Local imports
+from auth import authenticate
 from cleaners.text_cleaner import clean_text
 from parsers.pdf_parser import extract_pdf_text
 from parsers.docx_parser import extract_docx_text
 from skills.skill_extractor import load_skills, extract_skills
 from rules.rule_engine import apply_rules
 from decision.classifier import classify
+from ai.ai_analyzer import analyze_resume
 
-
+# -----------------------
+# App & Config
+# -----------------------
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -24,12 +28,10 @@ ALLOWED_EXTENSIONS = {"pdf", "docx", "txt"}
 
 app = Flask(__name__)
 app.secret_key = "shortlysr_secret_key"
+CORS(app)
 
 SKILLS = load_skills()
 
-# -----------------------
-# Helpers
-# -----------------------
 
 def logged_in():
     return "user" in session
@@ -37,9 +39,18 @@ def logged_in():
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# -----------------------
-# Routes
-# -----------------------
+@app.route("/api/login", methods=["POST"])
+def api_login():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+
+    if authenticate(username, password):
+        return jsonify({"success": True}), 200
+
+    return jsonify({"success": False}), 401
+
+
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -70,7 +81,7 @@ def jobs():
     if request.method == "POST":
         jd_text = request.form.get("jd", "").strip()
         with open(JOBS_FILE, "w") as f:
-            json.dump({"jd": jd_text}, f)
+            json.dump({"jd": jd_text}, f, indent=2)
 
     return render_template("jobs.html")
 
@@ -96,7 +107,6 @@ def upload():
         if not file or not allowed_file(file.filename):
             return render_template("upload.html", error="Invalid file type.")
 
-        # Extract resume text
         if file.filename.endswith(".pdf"):
             text = extract_pdf_text(file)
         elif file.filename.endswith(".docx"):
@@ -104,7 +114,6 @@ def upload():
         else:
             text = file.read().decode("utf-8", errors="ignore")
 
-        # Clean & extract skills
         jd_clean = clean_text(jd)
         resume_clean = clean_text(text)
 
@@ -113,15 +122,17 @@ def upload():
 
         rules = apply_rules(jd_skills, resume_skills)
         decision = classify(rules["score"])
+        ai_insights = analyze_resume(jd_skills, resume_skills, rules["score"])
 
         result = {
             "matched": rules["matched"],
             "missing": rules["missing"],
             "score": rules["score"],
-            "decision": decision
+            "decision": decision,
+            "ai": ai_insights
         }
 
-        # Save result
+
         with open(RESULTS_FILE, "r+") as f:
             data = json.load(f)
             data.append(result)
@@ -140,6 +151,10 @@ def results():
 
     return render_template("results.html", results=data)
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
