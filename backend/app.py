@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, redirect, session, jsonify
+from flask import Flask, render_template, request
 from flask_cors import CORS
 import json
 import os
 
-# Local imports
-from auth import authenticate
 from cleaners.text_cleaner import clean_text
 from parsers.pdf_parser import extract_pdf_text
 from parsers.docx_parser import extract_docx_text
@@ -20,64 +18,33 @@ from ai.ai_analyzer import analyze_resume
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
-USERS_FILE = os.path.join(DATA_DIR, "users.json")
 JOBS_FILE = os.path.join(DATA_DIR, "jobs.json")
 RESULTS_FILE = os.path.join(DATA_DIR, "results.json")
 
 ALLOWED_EXTENSIONS = {"pdf", "docx", "txt"}
 
 app = Flask(__name__)
-app.secret_key = "shortlysr_secret_key"
 CORS(app)
 
 SKILLS = load_skills()
 
-
-def logged_in():
-    return "user" in session
+# -----------------------
+# Helpers
+# -----------------------
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/api/login", methods=["POST"])
-def api_login():
-    data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
+# -----------------------
+# Routes
+# -----------------------
 
-    if authenticate(username, password):
-        return jsonify({"success": True}), 200
-
-    return jsonify({"success": False}), 401
-
-
-
-@app.route("/", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        with open(USERS_FILE) as f:
-            users = json.load(f)
-
-        username = request.form.get("username")
-        password = request.form.get("password")
-
-        if users.get(username) == password:
-            session["user"] = username
-            return redirect("/dashboard")
-
-    return render_template("login.html")
-
-@app.route("/dashboard")
+@app.route("/")
 def dashboard():
-    if not logged_in():
-        return redirect("/")
     return render_template("dashboard.html")
 
 @app.route("/jobs", methods=["GET", "POST"])
 def jobs():
-    if not logged_in():
-        return redirect("/")
-
     if request.method == "POST":
         jd_text = request.form.get("jd", "").strip()
         with open(JOBS_FILE, "w") as f:
@@ -87,9 +54,6 @@ def jobs():
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
-    if not logged_in():
-        return redirect("/")
-
     result = None
 
     if not os.path.exists(JOBS_FILE):
@@ -132,7 +96,6 @@ def upload():
             "ai": ai_insights
         }
 
-
         with open(RESULTS_FILE, "r+") as f:
             data = json.load(f)
             data.append(result)
@@ -143,18 +106,11 @@ def upload():
 
 @app.route("/results")
 def results():
-    if not logged_in():
-        return redirect("/")
-
     with open(RESULTS_FILE) as f:
         data = json.load(f)
 
     return render_template("results.html", results=data)
 
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
