@@ -1,42 +1,72 @@
 [
   {
     "filename": "1.pdf",
-    "score": 100,
     "decision": "Shortlisted",
-    "matched": [
-      "python",
-      "sql"
-    ],
-    "missing": [],
-    "required_skills": [],
-    "preferred_skills": [
-      "python",
-      "sql"
-    ],
+    "final_score": 100,
+    "rules": {
+      "mandatory_skills": {
+        "status": "pass",
+        "missing": [],
+        "evidence": "All mandatory skills present"
+      },
+      "skill_overlap": {
+        "status": "pass",
+        "score": 100,
+        "matched": [
+          "sql",
+          "python"
+        ],
+        "evidence": "2 out of 2 JD skills matched"
+      },
+      "github": {
+        "status": "not_specified",
+        "evidence": "No GitHub link provided"
+      },
+      "education": {
+        "status": "not_specified",
+        "evidence": "Education requirement not enforced"
+      },
+      "final_score": 100
+    },
     "ai": {
       "summary": "The candidate is a strong match for the role. Most of the required skills mentioned in the job description are present in the resume.",
       "strengths": [
-        "python",
-        "sql"
+        "sql",
+        "python"
       ],
       "missing_skills": []
     }
   },
   {
     "filename": "2.pdf",
-    "score": 50,
-    "decision": "Review Later",
-    "matched": [
-      "sql"
-    ],
-    "missing": [
-      "python"
-    ],
-    "required_skills": [],
-    "preferred_skills": [
-      "python",
-      "sql"
-    ],
+    "decision": "Rejected",
+    "final_score": 40,
+    "rules": {
+      "mandatory_skills": {
+        "status": "fail",
+        "missing": [
+          "python"
+        ],
+        "evidence": "Missing mandatory skills: python"
+      },
+      "skill_overlap": {
+        "status": "fail",
+        "score": 50,
+        "matched": [
+          "sql"
+        ],
+        "evidence": "1 out of 2 JD skills matched"
+      },
+      "github": {
+        "status": "not_specified",
+        "evidence": "No GitHub link provided"
+      },
+      "education": {
+        "status": "not_specified",
+        "evidence": "Education requirement not enforced"
+      },
+      "final_score": 40
+    },
     "ai": {
       "summary": "The candidate partially matches the role. Some important skills are present, but there are gaps that need review.",
       "strengths": [
