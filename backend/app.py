@@ -1,10 +1,12 @@
 from flask import Flask, request
 from flask_cors import CORS
-from jd.jd_parser import parse_jd
-
 import json
 import os
 
+# JD parsing
+from jd.jd_parser import parse_jd
+
+# Core logic
 from cleaners.text_cleaner import clean_text
 from parsers.pdf_parser import extract_pdf_text
 from parsers.docx_parser import extract_docx_text
@@ -36,15 +38,17 @@ SKILLS = load_skills()
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 # -----------------------
 # API ROUTES
 # -----------------------
 
+# ========= JD INPUT =========
 @app.route("/api/jobs", methods=["POST"])
 def api_save_job():
     jd_text = ""
 
-    # ---- Case 1: JD uploaded as file ----
+    # Case 1: JD uploaded as file
     if "jd_file" in request.files:
         file = request.files["jd_file"]
 
@@ -53,14 +57,12 @@ def api_save_job():
 
         if file.filename.lower().endswith(".pdf"):
             jd_text = extract_pdf_text(file)
-
         elif file.filename.lower().endswith(".docx"):
             jd_text = extract_docx_text(file)
-
         else:
             return {"error": "Only PDF or DOCX allowed for JD"}, 400
 
-    # ---- Case 2: JD entered as text ----
+    # Case 2: JD entered as text
     else:
         jd_text = request.form.get("jd_text", "").strip()
 
@@ -84,18 +86,17 @@ def api_save_job():
         "structured_jd": structured_jd
     }
 
+# ========= RESUME ANALYSIS =========
 @app.route("/api/analyze", methods=["POST"])
 def api_analyze_resume():
     if not os.path.exists(JOBS_FILE):
         return {"error": "Job description not found"}, 400
 
-    # ✅ READ JD CORRECTLY
+    # Load JD
     with open(JOBS_FILE) as f:
         jd_data = json.load(f)
 
-    raw_jd = jd_data.get("raw_jd", "")
     structured_jd = jd_data.get("structured", {})
-
     required_skills = structured_jd.get("required_skills", [])
     preferred_skills = structured_jd.get("preferred_skills", [])
 
@@ -112,10 +113,10 @@ def api_analyze_resume():
         if not allowed_file(file.filename):
             continue
 
-        # -------- Extract resume text --------
-        if file.filename.endswith(".pdf"):
+        # ---- Extract resume text ----
+        if file.filename.lower().endswith(".pdf"):
             text = extract_pdf_text(file)
-        elif file.filename.endswith(".docx"):
+        elif file.filename.lower().endswith(".docx"):
             text = extract_docx_text(file)
         else:
             text = file.read().decode("utf-8", errors="ignore")
@@ -123,36 +124,35 @@ def api_analyze_resume():
         resume_clean = clean_text(text)
         resume_skills = extract_skills(resume_clean, SKILLS)
 
-        # -------- Rule Engine (JD‑driven) --------
-        rules = apply_rules(required_skills + preferred_skills, resume_skills)
-        decision = classify(rules["score"])
+        # ---- Rule‑based evaluation (PHASE 2) ----
+        jd_skill_pool = required_skills + preferred_skills
+        rules = apply_rules(jd_skill_pool, resume_skills)
 
-        # -------- AI Analysis (JD‑conditioned) --------
+        # ---- Final decision ----
+        decision = classify(rules)
+
+        # ---- AI analysis (used in Phase 3 UI) ----
         ai_insights = analyze_resume(
-            required_skills + preferred_skills,
+            jd_skill_pool,
             resume_skills,
-            rules["score"]
+            rules["final_score"]
         )
 
         result = {
             "filename": file.filename,
-            "score": rules["score"],
             "decision": decision,
-            "matched": rules["matched"],
-            "missing": rules["missing"],
-            "required_skills": required_skills,
-            "preferred_skills": preferred_skills,
+            "final_score": rules["final_score"],
+            "rules": rules,
             "ai": ai_insights
         }
 
         results.append(result)
 
-    # -------- Save results (overwrite per batch) --------
+    # Save results (overwrite per batch)
     with open(RESULTS_FILE, "w") as f:
         json.dump(results, f, indent=2)
 
     return {"results": results}
-
 
 # -----------------------
 # Run App
