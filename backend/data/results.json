@@ -13,8 +13,8 @@
         "status": "pass",
         "score": 100,
         "matched": [
-          "sql",
-          "python"
+          "python",
+          "sql"
         ],
         "evidence": "2 out of 2 JD skills matched"
       },
@@ -30,8 +30,8 @@
     },
     "ai": {
       "strengths": [
-        "Strong alignment in sql as required by JD",
-        "Strong alignment in python as required by JD"
+        "Strong alignment in python as required by JD",
+        "Strong alignment in sql as required by JD"
       ],
       "red_flags": [
         "No major red flags relative to JD"

@@ -1,26 +1,22 @@
-def analyze_resume(jd_skills, resume_skills, score):
+def analyze_resume(jd_skills, resume_skills, score, github_url=None):
     strengths = []
     red_flags = []
     jd_mapped_projects = []
 
-    # Strengths (JD‑aligned)
     for skill in jd_skills:
         if skill in resume_skills:
-            strengths.append(f"Strong alignment in {skill} as required by JD")
-
-    # Red flags (JD‑missing)
-    for skill in jd_skills:
-        if skill not in resume_skills:
+            strengths.append(f"Strong alignment in {skill} as required by the JD")
+        else:
             red_flags.append(f"Missing {skill} which is required in the JD")
 
-    # JD‑mapped projects (heuristic for now)
-    for skill in resume_skills:
-        if skill in jd_skills:
-            jd_mapped_projects.append(
-                f"Candidate experience involving {skill} aligns with JD requirement"
-            )
+    if github_url:
+        strengths.append("GitHub profile provided, indicating proof of work")
+        jd_mapped_projects.append(
+            "Public repositories can be reviewed for JD‑relevant projects"
+        )
+    else:
+        red_flags.append("No GitHub/portfolio link provided for skill validation")
 
-    # Fallbacks (important)
     if not strengths:
         strengths.append("Limited alignment with JD requirements")
 

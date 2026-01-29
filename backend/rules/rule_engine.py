@@ -1,54 +1,51 @@
-def apply_rules(jd_skills, resume_skills, github_link=None, education=None):
+def apply_rules(jd_skills, resume_skills, github_url=None):
     rules = {}
 
-    # -----------------------
-    # Rule 1: Mandatory skills
-    # -----------------------
-    missing_mandatory = [s for s in jd_skills if s not in resume_skills]
+    # ---- Mandatory skills rule ----
+    missing = [s for s in jd_skills if s not in resume_skills]
 
-    rules["mandatory_skills"] = {
-        "status": "pass" if not missing_mandatory else "fail",
-        "missing": missing_mandatory,
-        "evidence": (
-            "All mandatory skills present"
-            if not missing_mandatory
-            else f"Missing mandatory skills: {', '.join(missing_mandatory)}"
-        )
-    }
+    if missing:
+        rules["mandatory_skills"] = {
+            "status": "fail",
+            "missing": missing,
+            "evidence": f"Missing mandatory skills: {', '.join(missing)}"
+        }
+    else:
+        rules["mandatory_skills"] = {
+            "status": "pass",
+            "missing": [],
+            "evidence": "All mandatory skills present"
+        }
 
-    # -----------------------
-    # Rule 2: Skill overlap
-    # -----------------------
-    matched = list(set(jd_skills) & set(resume_skills))
-    overlap_score = int((len(matched) / len(jd_skills)) * 100) if jd_skills else 0
+    # ---- Skill overlap ----
+    matched = [s for s in resume_skills if s in jd_skills]
+    overlap_score = int((len(matched) / max(len(jd_skills), 1)) * 100)
 
     rules["skill_overlap"] = {
-        "status": "pass" if overlap_score >= 60 else "fail",
+        "status": "pass" if overlap_score >= 40 else "fail",
         "score": overlap_score,
         "matched": matched,
         "evidence": f"{len(matched)} out of {len(jd_skills)} JD skills matched"
     }
 
-    # -----------------------
-    # Rule 3: GitHub presence
-    # -----------------------
-    rules["github"] = {
-        "status": "pass" if github_link else "not_specified",
-        "evidence": "GitHub link provided" if github_link else "No GitHub link provided"
-    }
+    # ---- GitHub presence rule ----
+    if github_url:
+        rules["github"] = {
+            "status": "pass",
+            "evidence": "GitHub profile provided"
+        }
+        github_bonus = 10
+    else:
+        rules["github"] = {
+            "status": "not_specified",
+            "evidence": "No GitHub profile provided"
+        }
+        github_bonus = 0
 
-    # -----------------------
-    # Rule 4: Education
-    # -----------------------
-    rules["education"] = {
-        "status": "not_specified",
-        "evidence": "Education requirement not enforced"
-    }
+    # ---- Final score ----
+    base_score = overlap_score
+    final_score = min(100, base_score + github_bonus)
 
-    # -----------------------
-    # Final score (weighted)
-    # -----------------------
-    final_score = overlap_score
     if rules["mandatory_skills"]["status"] == "fail":
         final_score = min(final_score, 40)
 

@@ -4,26 +4,29 @@ import { useNavigate } from "react-router-dom";
 
 export default function UploadResumes() {
   const [files, setFiles] = useState([]);
-  const [message, setMessage] = useState("");
+  const [githubLinks, setGithubLinks] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const { setResults } = useResults();
   const navigate = useNavigate();
 
-  const uploadResumes = async () => {
+  const submit = async () => {
     if (files.length === 0) {
-      setMessage("Please select at least one resume ❗");
+      alert("Please upload at least one resume");
       return;
     }
 
+    setLoading(true);
+
     const formData = new FormData();
-    for (let file of files) {
-      formData.append("resumes", file);
-    }
+
+    files.forEach((f) => formData.append("resumes", f));
+
+    // IMPORTANT: always send same count as resumes
+    files.forEach((_, i) =>
+      formData.append("github_links", githubLinks[i] || ""),
+    );
 
     try {
-      setLoading(true);
-
       const res = await fetch("http://localhost:5000/api/analyze", {
         method: "POST",
         body: formData,
@@ -31,14 +34,16 @@ export default function UploadResumes() {
 
       const data = await res.json();
 
-      if (res.ok) {
-        setResults(data.results); // ✅ SAVE GLOBALLY
-        navigate("/results"); // ✅ GO TO RESULTS PAGE
-      } else {
-        setMessage(data.error || "Analysis failed ❌");
+      if (!res.ok) {
+        alert(data.error || "Analysis failed");
+        setLoading(false);
+        return;
       }
+
+      setResults(data.results);
+      navigate("/results");
     } catch (err) {
-      setMessage("Backend not reachable ❌");
+      alert("Server error");
     } finally {
       setLoading(false);
     }
@@ -53,18 +58,35 @@ export default function UploadResumes() {
         multiple
         accept=".pdf,.docx"
         className="form-control mt-3"
-        onChange={(e) => setFiles(e.target.files)}
+        onChange={(e) => {
+          const selected = [...e.target.files];
+          setFiles(selected);
+          setGithubLinks(new Array(selected.length).fill(""));
+        }}
       />
+
+      {files.map((file, i) => (
+        <input
+          key={i}
+          type="text"
+          placeholder={`GitHub / Portfolio link for ${file.name} (optional)`}
+          className="form-control mt-2"
+          value={githubLinks[i] || ""}
+          onChange={(e) => {
+            const copy = [...githubLinks];
+            copy[i] = e.target.value;
+            setGithubLinks(copy);
+          }}
+        />
+      ))}
 
       <button
         className="btn btn-primary mt-3"
-        onClick={uploadResumes}
+        onClick={submit}
         disabled={loading}
       >
         {loading ? "Analyzing..." : "Analyze Resumes"}
       </button>
-
-      {message && <p className="mt-3">{message}</p>}
     </div>
   );
 }
