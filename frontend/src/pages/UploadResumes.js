@@ -1,92 +1,60 @@
 import { useState } from "react";
 import { useResults } from "../context/ResultsContext";
-import { useNavigate } from "react-router-dom";
 
 export default function UploadResumes() {
-  const [files, setFiles] = useState([]);
-  const [githubLinks, setGithubLinks] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { setResults } = useResults();
-  const navigate = useNavigate();
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const submit = async () => {
-    if (files.length === 0) {
-      alert("Please upload at least one resume");
-      return;
-    }
-
-    setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     const formData = new FormData();
-
-    files.forEach((f) => formData.append("resumes", f));
-
-    // IMPORTANT: always send same count as resumes
-    files.forEach((_, i) =>
-      formData.append("github_links", githubLinks[i] || ""),
-    );
+    for (let file of files) {
+      formData.append("resumes", file);
+    }
 
     try {
+      setLoading(true);
       const res = await fetch("http://localhost:5000/api/analyze", {
         method: "POST",
         body: formData,
       });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.error || "Analysis failed");
-        setLoading(false);
-        return;
-      }
-
       setResults(data.results);
-      navigate("/results");
     } catch (err) {
-      alert("Server error");
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="card p-4 shadow">
-      <h2>Upload Resumes</h2>
+    <div className="page-wrapper">
+      <div className="container-fluid px-5">
+        <h2 className="page-title">Upload Resumes</h2>
+        <p className="page-subtitle">
+          Upload candidate resumes to analyze against the job description.
+        </p>
 
-      <input
-        type="file"
-        multiple
-        accept=".pdf,.docx"
-        className="form-control mt-3"
-        onChange={(e) => {
-          const selected = [...e.target.files];
-          setFiles(selected);
-          setGithubLinks(new Array(selected.length).fill(""));
-        }}
-      />
+        {/* ✅ SAME CARD AS JD PAGE */}
+        <div className="theme-card">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="file"
+              multiple
+              accept=".pdf,.docx"
+              className="theme-input mb-4"
+              onChange={(e) => setFiles(e.target.files)}
+            />
 
-      {files.map((file, i) => (
-        <input
-          key={i}
-          type="text"
-          placeholder={`GitHub / Portfolio link for ${file.name} (optional)`}
-          className="form-control mt-2"
-          value={githubLinks[i] || ""}
-          onChange={(e) => {
-            const copy = [...githubLinks];
-            copy[i] = e.target.value;
-            setGithubLinks(copy);
-          }}
-        />
-      ))}
-
-      <button
-        className="btn btn-primary mt-3"
-        onClick={submit}
-        disabled={loading}
-      >
-        {loading ? "Analyzing..." : "Analyze Resumes"}
-      </button>
+            <button className="theme-btn" type="submit" disabled={loading}>
+              {loading ? "Analyzing..." : "Analyze Resumes"}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

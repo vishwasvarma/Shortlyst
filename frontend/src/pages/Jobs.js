@@ -4,6 +4,7 @@ export default function Jobs() {
   const [jdText, setJdText] = useState("");
   const [jdFile, setJdFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,9 +25,9 @@ export default function Jobs() {
 
       if (!res.ok) throw new Error("Upload failed");
 
-      alert("Job Description uploaded successfully");
-    } catch (err) {
-      alert("Failed to upload Job Description");
+      setMessage("Job Description uploaded successfully");
+    } catch {
+      setMessage("Failed to upload Job Description");
     } finally {
       setLoading(false);
     }
@@ -34,7 +35,7 @@ export default function Jobs() {
 
   return (
     <div className="page-wrapper">
-      <div className="container">
+      <div className="container-fluid px-5">
         <h2 className="page-title">Create Job Description</h2>
         <p className="page-subtitle">
           Paste or upload your job description to start screening candidates.
@@ -43,7 +44,7 @@ export default function Jobs() {
         <div className="theme-card">
           <form onSubmit={handleSubmit}>
             <textarea
-              className="theme-textarea mb-3"
+              className="theme-textarea mb-4"
               placeholder="Paste job description text (optional)"
               value={jdText}
               onChange={(e) => setJdText(e.target.value)}
@@ -61,6 +62,12 @@ export default function Jobs() {
                 {loading ? "Uploading..." : "Upload"}
               </button>
             </div>
+
+            {message && (
+              <p className="mt-3" style={{ color: "#bdbdbd" }}>
+                {message}
+              </p>
+            )}
           </form>
         </div>
       </div>

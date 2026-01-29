@@ -1,141 +1,52 @@
-import { useState } from "react";
 import { useResults } from "../context/ResultsContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Results() {
   const { results } = useResults();
   const navigate = useNavigate();
-  const [filter, setFilter] = useState("all");
-
-  const exportCSV = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/api/export");
-      if (!res.ok) {
-        alert("CSV export failed");
-        return;
-      }
-
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "resume_screening_results.csv";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-    } catch {
-      alert("CSV download error");
-    }
-  };
 
   if (!results || results.length === 0) {
-    return <p>No results yet</p>;
+    return (
+      <div className="page-wrapper">
+        <div className="container-fluid px-5">
+          <p>No results yet</p>
+        </div>
+      </div>
+    );
   }
 
-  const filteredResults =
-    filter === "all"
-      ? results
-      : results.filter((r) => r.decision.toLowerCase() === filter);
-
   return (
-    <div className="card p-4 shadow">
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center">
-        <h2>Screening Results</h2>
-        <button className="btn btn-success" onClick={exportCSV}>
-          Export CSV
-        </button>
+    <div className="page-wrapper">
+      <div className="container-fluid px-5">
+        <h2 className="page-title">Screening Results</h2>
+        <p className="page-subtitle">JD‑aware resume screening outcomes</p>
+
+        {/* ✅ SAME CARD AS JD PAGE */}
+        <div className="theme-card">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Resume</th>
+                <th>Score</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.map((r, i) => (
+                <tr
+                  key={i}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate(`/candidate/${i}`)}
+                >
+                  <td>{r.filename}</td>
+                  <td>{r.final_score}%</td>
+                  <td>{r.decision}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      {/* Filters */}
-      <div className="btn-group mt-3">
-        <button
-          className={`btn btn-outline-dark ${filter === "all" ? "active" : ""}`}
-          onClick={() => setFilter("all")}
-        >
-          All ({results.length})
-        </button>
-        <button
-          className={`btn btn-outline-success ${
-            filter === "shortlisted" ? "active" : ""
-          }`}
-          onClick={() => setFilter("shortlisted")}
-        >
-          🟢 Shortlisted (
-          {results.filter((r) => r.decision === "Shortlisted").length})
-        </button>
-        <button
-          className={`btn btn-outline-danger ${
-            filter === "rejected" ? "active" : ""
-          }`}
-          onClick={() => setFilter("rejected")}
-        >
-          🔴 Rejected ({results.filter((r) => r.decision === "Rejected").length}
-          )
-        </button>
-        <button
-          className={`btn btn-outline-warning ${
-            filter === "review later" ? "active" : ""
-          }`}
-          onClick={() => setFilter("review later")}
-        >
-          🟡 Review Later (
-          {results.filter((r) => r.decision === "Review Later").length})
-        </button>
-      </div>
-
-      {/* Table */}
-      <table className="table table-bordered mt-4">
-        <thead>
-          <tr>
-            <th>Resume</th>
-            <th>Score</th>
-            <th>Decision</th>
-            <th>AI Strengths</th>
-            <th>AI Red Flags</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {filteredResults.map((r, i) => (
-            <tr
-              key={i}
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/candidate/${results.indexOf(r)}`)}
-            >
-              <td>{r.filename}</td>
-              <td>{r.final_score}%</td>
-              <td>
-                {r.decision === "Shortlisted" && "🟢 "}
-                {r.decision === "Rejected" && "🔴 "}
-                {r.decision === "Review Later" && "🟡 "}
-                {r.decision}
-              </td>
-              <td>
-                <ul>
-                  {r.ai.strengths.map((s, j) => (
-                    <li key={j}>{s}</li>
-                  ))}
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  {r.ai.red_flags.map((rf, j) => (
-                    <li key={j}>{rf}</li>
-                  ))}
-                </ul>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <p className="text-muted mt-2">
-        Click a row to view detailed candidate analysis
-      </p>
     </div>
   );
 }

@@ -76,3 +76,38 @@ body {
   padding: 20px;
   color: #ffffff;
 }
+/* Make cards wider */
+.theme-card {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 32px; /* more horizontal space */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* EXTRA WIDE textarea */
+.theme-textarea {
+  width: 100%;
+  min-height: 280px;
+  background: #3a3a3a;
+  border: none;
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 20px; /* makes it feel wider */
+  font-size: 15px;
+}
+.table {
+  color: #ffffff;
+}
+
+.table th {
+  color: #bdbdbd;
+  border-bottom: 1px solid #333;
+}
+
+.table td {
+  border-top: 1px solid #333;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
