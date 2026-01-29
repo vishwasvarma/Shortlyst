@@ -29,12 +29,18 @@
       "final_score": 100
     },
     "ai": {
-      "summary": "The candidate is a strong match for the role. Most of the required skills mentioned in the job description are present in the resume.",
       "strengths": [
-        "sql",
-        "python"
+        "Strong alignment in sql as required by JD",
+        "Strong alignment in python as required by JD"
       ],
-      "missing_skills": []
+      "red_flags": [
+        "No major red flags relative to JD"
+      ],
+      "jd_mapped_projects": [
+        "Candidate experience involving python aligns with JD requirement",
+        "Candidate experience involving sql aligns with JD requirement"
+      ],
+      "summary": "Overall JD match score is 100%"
     }
   },
   {
@@ -68,13 +74,16 @@
       "final_score": 40
     },
     "ai": {
-      "summary": "The candidate partially matches the role. Some important skills are present, but there are gaps that need review.",
       "strengths": [
-        "sql"
+        "Strong alignment in sql as required by JD"
       ],
-      "missing_skills": [
-        "python"
-      ]
+      "red_flags": [
+        "Missing python which is required in the JD"
+      ],
+      "jd_mapped_projects": [
+        "Candidate experience involving sql aligns with JD requirement"
+      ],
+      "summary": "Overall JD match score is 40%"
     }
   }
 ]

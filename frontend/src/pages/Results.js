@@ -22,15 +22,16 @@ export default function Results() {
             <th>Resume</th>
             <th>Final Score</th>
             <th>Decision</th>
-            <th>Mandatory Skills</th>
-            <th>Skill Overlap</th>
+            <th>Mandatory Skills (Rule)</th>
+            <th>AI Strengths (JD‑Aligned)</th>
+            <th>AI Red Flags (JD‑Based)</th>
           </tr>
         </thead>
 
         <tbody>
           {results.map((r, idx) => (
             <tr key={idx}>
-              {/* Resume filename */}
+              {/* Resume name */}
               <td>{r.filename}</td>
 
               {/* Final score */}
@@ -50,11 +51,22 @@ export default function Results() {
                 <small>{r.rules.mandatory_skills.evidence}</small>
               </td>
 
-              {/* Skill overlap rule */}
+              {/* AI Strengths */}
               <td>
-                <strong>{r.rules.skill_overlap.score}%</strong>
-                <br />
-                <small>{r.rules.skill_overlap.evidence}</small>
+                <ul>
+                  {r.ai?.strengths?.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </td>
+
+              {/* AI Red Flags */}
+              <td>
+                <ul>
+                  {r.ai?.red_flags?.map((rf, i) => (
+                    <li key={i}>{rf}</li>
+                  ))}
+                </ul>
               </td>
             </tr>
           ))}
