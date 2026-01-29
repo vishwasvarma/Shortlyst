@@ -1,38 +1,42 @@
-import { useEffect, useState } from "react";
+import { useResults } from "../context/ResultsContext";
 
 export default function Results() {
-  const [results, setResults] = useState([]);
+  const { results } = useResults();
 
-  useEffect(() => {
-    fetch("http://localhost:5000/data/results.json")
-      .then((res) => res.json())
-      .then((data) => setResults(data));
-  }, []);
+  if (results.length === 0) {
+    return <p>No results available. Please upload resumes.</p>;
+  }
 
   return (
     <div className="card p-4 shadow">
-      <h2>Results</h2>
+      <h2>Screening Results</h2>
 
-      {results.length === 0 && <p>No results yet</p>}
-
-      {results.map((r, i) => (
-        <div key={i} className="border p-3 mt-3">
-          <h5>{r.filename}</h5>
-          <p>
-            <strong>Score:</strong> {r.score}%
-          </p>
-          <p>
-            <strong>Decision:</strong> {r.decision}
-          </p>
-
-          <p>
-            <strong>Matched Skills:</strong> {r.matched.join(", ")}
-          </p>
-          <p>
-            <strong>Missing Skills:</strong> {r.missing.join(", ")}
-          </p>
-        </div>
-      ))}
+      <table className="table table-bordered mt-3">
+        <thead>
+          <tr>
+            <th>Resume</th>
+            <th>Score</th>
+            <th>Decision</th>
+            <th>Matched Skills</th>
+            <th>Missing Skills</th>
+          </tr>
+        </thead>
+        <tbody>
+          {results.map((r, idx) => (
+            <tr key={idx}>
+              <td>{r.filename}</td>
+              <td>{r.score}%</td>
+              <td>
+                {r.decision === "Shortlisted" && "🟢 Shortlisted"}
+                {r.decision === "Rejected" && "🔴 Rejected"}
+                {r.decision === "Review Later" && "🟡 Review Later"}
+              </td>
+              <td>{r.matched.join(", ")}</td>
+              <td>{r.missing.join(", ")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

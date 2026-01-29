@@ -1,3 +1,11 @@
 {
-  "jd": "python sql"
+  "raw_jd": "Sql python c++",
+  "structured": {
+    "required_skills": [],
+    "preferred_skills": [
+      "python",
+      "sql"
+    ],
+    "role_keywords": []
+  }
 }

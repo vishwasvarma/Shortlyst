@@ -36,18 +36,36 @@ SKILLS = load_skills()
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
 # -----------------------
 # API ROUTES
 # -----------------------
 
 @app.route("/api/jobs", methods=["POST"])
 def api_save_job():
-    data = request.get_json()
-    jd_text = data.get("jd", "").strip()
+    jd_text = ""
+
+    # ---- Case 1: JD uploaded as file ----
+    if "jd_file" in request.files:
+        file = request.files["jd_file"]
+
+        if file.filename == "":
+            return {"error": "No JD file selected"}, 400
+
+        if file.filename.lower().endswith(".pdf"):
+            jd_text = extract_pdf_text(file)
+
+        elif file.filename.lower().endswith(".docx"):
+            jd_text = extract_docx_text(file)
+
+        else:
+            return {"error": "Only PDF or DOCX allowed for JD"}, 400
+
+    # ---- Case 2: JD entered as text ----
+    else:
+        jd_text = request.form.get("jd_text", "").strip()
 
     if not jd_text:
-        return {"error": "Job description is empty"}, 400
+        return {"error": "Job Description is empty"}, 400
 
     structured_jd = parse_jd(jd_text, SKILLS)
 
@@ -61,8 +79,10 @@ def api_save_job():
             indent=2
         )
 
-    return {"success": True, "structured_jd": structured_jd}
-
+    return {
+        "success": True,
+        "structured_jd": structured_jd
+    }
 
 @app.route("/api/analyze", methods=["POST"])
 def api_analyze_resume():

@@ -1,20 +1,48 @@
 import { useState } from "react";
 
 export default function Jobs() {
-  const [jd, setJd] = useState("");
+  const [jdText, setJdText] = useState("");
+  const [jdFile, setJdFile] = useState(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const saveJD = async () => {
-    const res = await fetch("http://localhost:5000/api/jobs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ jd }),
-    });
+  const submitJD = async () => {
+    setMessage("");
 
-    if (res.ok) {
-      setMessage("Job Description saved successfully ✅");
+    if (!jdText && !jdFile) {
+      setMessage("Please enter JD text or upload a JD file ❗");
+      return;
+    }
+
+    const formData = new FormData();
+
+    if (jdFile) {
+      formData.append("jd_file", jdFile);
     } else {
-      setMessage("Failed to save Job Description ❌");
+      formData.append("jd_text", jdText);
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:5000/api/jobs", {
+        method: "POST",
+        body: formData, // ✅ NO headers here
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Job Description saved successfully ✅");
+        setJdText("");
+        setJdFile(null);
+      } else {
+        setMessage(data.error || "Failed to save Job Description ❌");
+      }
+    } catch (err) {
+      setMessage("Backend not reachable ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -22,19 +50,34 @@ export default function Jobs() {
     <div className="card p-4 shadow">
       <h2>Job Description</h2>
 
+      {/* JD TEXT INPUT */}
       <textarea
         className="form-control mt-3"
-        rows="8"
-        placeholder="Paste job description here..."
-        value={jd}
-        onChange={(e) => setJd(e.target.value)}
+        rows="6"
+        placeholder="Paste Job Description text (optional)"
+        value={jdText}
+        onChange={(e) => setJdText(e.target.value)}
       />
 
-      <button className="btn btn-primary mt-3" onClick={saveJD}>
-        Save Job Description
+      {/* JD FILE INPUT */}
+      <input
+        type="file"
+        accept=".pdf,.docx"
+        className="form-control mt-3"
+        onChange={(e) => setJdFile(e.target.files[0])}
+      />
+
+      {/* SUBMIT BUTTON */}
+      <button
+        className="btn btn-primary mt-3"
+        onClick={submitJD}
+        disabled={loading}
+      >
+        {loading ? "Saving..." : "Save Job Description"}
       </button>
 
-      {message && <p className="mt-3">{message}</p>}
+      {/* STATUS MESSAGE */}
+      {message && <p className="mt-3 fw-bold">{message}</p>}
     </div>
   );
 }
