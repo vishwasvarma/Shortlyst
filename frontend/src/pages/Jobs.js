@@ -3,19 +3,12 @@ import { useState } from "react";
 export default function Jobs() {
   const [jdText, setJdText] = useState("");
   const [jdFile, setJdFile] = useState(null);
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submitJD = async () => {
-    setMessage("");
-
-    if (!jdText && !jdFile) {
-      setMessage("Please enter JD text or upload a JD file ❗");
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     const formData = new FormData();
-
     if (jdFile) {
       formData.append("jd_file", jdFile);
     } else {
@@ -24,60 +17,53 @@ export default function Jobs() {
 
     try {
       setLoading(true);
-
       const res = await fetch("http://localhost:5000/api/jobs", {
         method: "POST",
-        body: formData, // ✅ NO headers here
+        body: formData,
       });
 
-      const data = await res.json();
+      if (!res.ok) throw new Error("Upload failed");
 
-      if (res.ok) {
-        setMessage("Job Description saved successfully ✅");
-        setJdText("");
-        setJdFile(null);
-      } else {
-        setMessage(data.error || "Failed to save Job Description ❌");
-      }
+      alert("Job Description uploaded successfully");
     } catch (err) {
-      setMessage("Backend not reachable ❌");
+      alert("Failed to upload Job Description");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="card p-4 shadow">
-      <h2>Job Description</h2>
+    <div className="page-wrapper">
+      <div className="container">
+        <h2 className="page-title">Create Job Description</h2>
+        <p className="page-subtitle">
+          Paste or upload your job description to start screening candidates.
+        </p>
 
-      {/* JD TEXT INPUT */}
-      <textarea
-        className="form-control mt-3"
-        rows="6"
-        placeholder="Paste Job Description text (optional)"
-        value={jdText}
-        onChange={(e) => setJdText(e.target.value)}
-      />
+        <div className="theme-card">
+          <form onSubmit={handleSubmit}>
+            <textarea
+              className="theme-textarea mb-3"
+              placeholder="Paste job description text (optional)"
+              value={jdText}
+              onChange={(e) => setJdText(e.target.value)}
+            />
 
-      {/* JD FILE INPUT */}
-      <input
-        type="file"
-        accept=".pdf,.docx"
-        className="form-control mt-3"
-        onChange={(e) => setJdFile(e.target.files[0])}
-      />
+            <div className="d-flex align-items-center gap-3">
+              <input
+                type="file"
+                className="theme-input"
+                accept=".pdf,.docx"
+                onChange={(e) => setJdFile(e.target.files[0])}
+              />
 
-      {/* SUBMIT BUTTON */}
-      <button
-        className="btn btn-primary mt-3"
-        onClick={submitJD}
-        disabled={loading}
-      >
-        {loading ? "Saving..." : "Save Job Description"}
-      </button>
-
-      {/* STATUS MESSAGE */}
-      {message && <p className="mt-3 fw-bold">{message}</p>}
+              <button className="theme-btn" type="submit" disabled={loading}>
+                {loading ? "Uploading..." : "Upload"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

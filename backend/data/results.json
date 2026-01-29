@@ -19,24 +19,21 @@
         "evidence": "2 out of 2 JD skills matched"
       },
       "github": {
-        "status": "pass",
-        "evidence": "GitHub profile provided"
+        "status": "not_specified",
+        "evidence": "No GitHub profile provided"
       },
       "final_score": 100
     },
-    "github": "nlnll",
+    "github": null,
     "ai": {
       "strengths": [
-        "Strong alignment in sql as required by the JD",
         "Strong alignment in python as required by the JD",
-        "GitHub profile provided, indicating proof of work"
+        "Strong alignment in sql as required by the JD"
       ],
       "red_flags": [
-        "No major red flags relative to JD"
+        "No GitHub/portfolio link provided for skill validation"
       ],
-      "jd_mapped_projects": [
-        "Public repositories can be reviewed for JD\u2011relevant projects"
-      ],
+      "jd_mapped_projects": [],
       "summary": "Overall JD match score is 100%"
     }
   },
@@ -61,23 +58,21 @@
         "evidence": "1 out of 2 JD skills matched"
       },
       "github": {
-        "status": "pass",
-        "evidence": "GitHub profile provided"
+        "status": "not_specified",
+        "evidence": "No GitHub profile provided"
       },
       "final_score": 40
     },
-    "github": "jvv",
+    "github": null,
     "ai": {
       "strengths": [
-        "Strong alignment in sql as required by the JD",
-        "GitHub profile provided, indicating proof of work"
+        "Strong alignment in sql as required by the JD"
       ],
       "red_flags": [
-        "Missing python which is required in the JD"
+        "Missing python which is required in the JD",
+        "No GitHub/portfolio link provided for skill validation"
       ],
-      "jd_mapped_projects": [
-        "Public repositories can be reviewed for JD\u2011relevant projects"
-      ],
+      "jd_mapped_projects": [],
       "summary": "Overall JD match score is 40%"
     }
   }
