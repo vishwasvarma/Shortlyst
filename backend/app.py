@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, request
 from flask_cors import CORS
 import json
 import os
@@ -36,40 +36,43 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # -----------------------
-# Routes
+# API ROUTES (USED BY REACT)
 # -----------------------
 
-@app.route("/")
-def dashboard():
-    return render_template("dashboard.html")
+@app.route("/api/jobs", methods=["POST"])
+def api_save_job():
+    data = request.get_json()
+    jd_text = data.get("jd", "").strip()
 
-@app.route("/jobs", methods=["GET", "POST"])
-def jobs():
-    if request.method == "POST":
-        jd_text = request.form.get("jd", "").strip()
-        with open(JOBS_FILE, "w") as f:
-            json.dump({"jd": jd_text}, f, indent=2)
+    if not jd_text:
+        return {"error": "Job description is empty"}, 400
 
-    return render_template("jobs.html")
+    with open(JOBS_FILE, "w") as f:
+        json.dump({"jd": jd_text}, f, indent=2)
 
-@app.route("/upload", methods=["GET", "POST"])
-def upload():
-    result = None
+    return {"success": True}
 
+
+@app.route("/api/analyze", methods=["POST"])
+def api_analyze_resume():
     if not os.path.exists(JOBS_FILE):
-        return render_template("upload.html", error="Please add a Job Description first.")
+        return {"error": "Job description not found"}, 400
 
     with open(JOBS_FILE) as f:
         jd = json.load(f).get("jd", "")
 
-    if not jd:
-        return render_template("upload.html", error="Job Description is empty.")
+    files = request.files.getlist("resumes")
+    if not files:
+        return {"error": "No resumes uploaded"}, 400
 
-    if request.method == "POST":
-        file = request.files.get("resume")
+    jd_clean = clean_text(jd)
+    jd_skills = extract_skills(jd_clean, SKILLS)
 
-        if not file or not allowed_file(file.filename):
-            return render_template("upload.html", error="Invalid file type.")
+    results = []
+
+    for file in files:
+        if not allowed_file(file.filename):
+            continue
 
         if file.filename.endswith(".pdf"):
             text = extract_pdf_text(file)
@@ -78,10 +81,7 @@ def upload():
         else:
             text = file.read().decode("utf-8", errors="ignore")
 
-        jd_clean = clean_text(jd)
         resume_clean = clean_text(text)
-
-        jd_skills = extract_skills(jd_clean, SKILLS)
         resume_skills = extract_skills(resume_clean, SKILLS)
 
         rules = apply_rules(jd_skills, resume_skills)
@@ -89,28 +89,33 @@ def upload():
         ai_insights = analyze_resume(jd_skills, resume_skills, rules["score"])
 
         result = {
-            "matched": rules["matched"],
-            "missing": rules["missing"],
+            "filename": file.filename,
             "score": rules["score"],
             "decision": decision,
+            "matched": rules["matched"],
+            "missing": rules["missing"],
             "ai": ai_insights
         }
 
-        with open(RESULTS_FILE, "r+") as f:
-            data = json.load(f)
-            data.append(result)
-            f.seek(0)
-            json.dump(data, f, indent=2)
+        results.append(result)
 
-    return render_template("upload.html", result=result)
+    # Save all results
+    if not os.path.exists(RESULTS_FILE):
+        with open(RESULTS_FILE, "w") as f:
+            json.dump([], f)
 
-@app.route("/results")
-def results():
-    with open(RESULTS_FILE) as f:
+    with open(RESULTS_FILE, "r+") as f:
         data = json.load(f)
+        data.extend(results)
+        f.seek(0)
+        json.dump(data, f, indent=2)
 
-    return render_template("results.html", results=data)
+    return {"results": results}
 
+
+# -----------------------
+# Run App
+# -----------------------
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

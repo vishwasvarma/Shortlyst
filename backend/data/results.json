@@ -1,1 +1,118 @@
-[]
+[
+  {
+    "matched": [
+      "python"
+    ],
+    "missing": [],
+    "score": 100,
+    "decision": "Shortlisted",
+    "ai": {
+      "summary": "The candidate is a strong match for the role. Most of the required skills mentioned in the job description are present in the resume.",
+      "strengths": [
+        "python"
+      ],
+      "missing_skills": []
+    }
+  },
+  {
+    "matched": [],
+    "missing": [],
+    "score": 0,
+    "decision": "Rejected",
+    "ai": {
+      "summary": "The candidate does not sufficiently match the job requirements. Several key skills from the job description are missing.",
+      "strengths": [],
+      "missing_skills": []
+    }
+  },
+  {
+    "matched": [
+      "python",
+      "sql"
+    ],
+    "missing": [],
+    "score": 100,
+    "decision": "Shortlisted",
+    "ai": {
+      "summary": "The candidate is a strong match for the role. Most of the required skills mentioned in the job description are present in the resume.",
+      "strengths": [
+        "python",
+        "sql"
+      ],
+      "missing_skills": []
+    }
+  },
+  {
+    "matched": [
+      "python",
+      "sql"
+    ],
+    "missing": [],
+    "score": 100,
+    "decision": "Shortlisted",
+    "ai": {
+      "summary": "The candidate is a strong match for the role. Most of the required skills mentioned in the job description are present in the resume.",
+      "strengths": [
+        "python",
+        "sql"
+      ],
+      "missing_skills": []
+    }
+  },
+  {
+    "filename": "1.txt",
+    "score": 100,
+    "decision": "Shortlisted",
+    "matched": [
+      "python",
+      "sql"
+    ],
+    "missing": [],
+    "ai": {
+      "summary": "The candidate is a strong match for the role. Most of the required skills mentioned in the job description are present in the resume.",
+      "strengths": [
+        "python",
+        "sql"
+      ],
+      "missing_skills": []
+    }
+  },
+  {
+    "filename": "2.txt",
+    "score": 50,
+    "decision": "Review Later",
+    "matched": [
+      "sql"
+    ],
+    "missing": [
+      "python"
+    ],
+    "ai": {
+      "summary": "The candidate partially matches the role. Some important skills are present, but there are gaps that need review.",
+      "strengths": [
+        "sql"
+      ],
+      "missing_skills": [
+        "python"
+      ]
+    }
+  },
+  {
+    "filename": "1.txt",
+    "score": 100,
+    "decision": "Shortlisted",
+    "matched": [
+      "python",
+      "sql"
+    ],
+    "missing": [],
+    "ai": {
+      "summary": "The candidate is a strong match for the role. Most of the required skills mentioned in the job description are present in the resume.",
+      "strengths": [
+        "python",
+        "sql"
+      ],
+      "missing_skills": []
+    }
+  }
+]
