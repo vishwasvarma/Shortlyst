@@ -2,8 +2,8 @@
   "structured": {
     "required_skills": [],
     "preferred_skills": [
-      "python",
-      "sql"
+      "sql",
+      "python"
     ],
     "role_keywords": []
   }

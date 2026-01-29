@@ -3,20 +3,77 @@
     "filename": "1.pdf",
     "decision": "Shortlisted",
     "final_score": 100,
-    "mandatory_status": "pass",
-    "mandatory_evidence": "All mandatory skills present",
-    "github": "N/A",
-    "ai_strengths": "Strong alignment in python as required by the JD; Strong alignment in sql as required by the JD",
-    "ai_red_flags": "No GitHub/portfolio link provided for skill validation"
+    "rules": {
+      "mandatory_skills": {
+        "status": "pass",
+        "missing": [],
+        "evidence": "All mandatory skills present"
+      },
+      "skill_overlap": {
+        "status": "pass",
+        "score": 100,
+        "matched": [
+          "python",
+          "sql"
+        ],
+        "evidence": "2 out of 2 JD skills matched"
+      },
+      "github": {
+        "status": "not_specified",
+        "evidence": "No GitHub profile provided"
+      },
+      "final_score": 100
+    },
+    "github": null,
+    "ai": {
+      "strengths": [
+        "Strong alignment in sql as required by the JD",
+        "Strong alignment in python as required by the JD"
+      ],
+      "red_flags": [
+        "No GitHub/portfolio link provided for skill validation"
+      ],
+      "jd_mapped_projects": [],
+      "summary": "Overall JD match score is 100%"
+    }
   },
   {
     "filename": "2.pdf",
     "decision": "Rejected",
     "final_score": 40,
-    "mandatory_status": "fail",
-    "mandatory_evidence": "Missing mandatory skills: python",
-    "github": "N/A",
-    "ai_strengths": "Strong alignment in sql as required by the JD",
-    "ai_red_flags": "Missing python which is required in the JD; No GitHub/portfolio link provided for skill validation"
+    "rules": {
+      "mandatory_skills": {
+        "status": "fail",
+        "missing": [
+          "python"
+        ],
+        "evidence": "Missing mandatory skills: python"
+      },
+      "skill_overlap": {
+        "status": "pass",
+        "score": 50,
+        "matched": [
+          "sql"
+        ],
+        "evidence": "1 out of 2 JD skills matched"
+      },
+      "github": {
+        "status": "not_specified",
+        "evidence": "No GitHub profile provided"
+      },
+      "final_score": 40
+    },
+    "github": null,
+    "ai": {
+      "strengths": [
+        "Strong alignment in sql as required by the JD"
+      ],
+      "red_flags": [
+        "Missing python which is required in the JD",
+        "No GitHub/portfolio link provided for skill validation"
+      ],
+      "jd_mapped_projects": [],
+      "summary": "Overall JD match score is 40%"
+    }
   }
 ]

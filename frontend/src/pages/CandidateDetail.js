@@ -6,67 +6,61 @@ export default function CandidateDetail() {
   const navigate = useNavigate();
   const { results } = useResults();
 
-  const candidate = results[index];
-
-  if (!candidate) {
-    return <p>Candidate not found</p>;
-  }
+  const c = results[index];
+  if (!c) return <p>Candidate not found</p>;
 
   return (
     <div className="card p-4 shadow">
       <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
-        ← Back to Results
+        ← Back
       </button>
 
-      <h2>{candidate.filename}</h2>
-
+      <h2>{c.filename}</h2>
       <p>
-        <strong>Final Score:</strong> {candidate.final_score}%
+        <strong>Decision:</strong> {c.decision}
       </p>
-
       <p>
-        <strong>Decision:</strong>{" "}
-        {candidate.decision === "Shortlisted" && "🟢 Shortlisted"}
-        {candidate.decision === "Rejected" && "🔴 Rejected"}
-        {candidate.decision === "Review Later" && "🟡 Review Later"}
+        <strong>Score:</strong> {c.final_score}%
       </p>
 
       <hr />
 
       <h4>Rule Evaluation</h4>
-
-      <ul>
-        <li>
-          <strong>Mandatory Skills:</strong>{" "}
-          {candidate.rules.mandatory_skills.status}
-          <br />
-          <small>{candidate.rules.mandatory_skills.evidence}</small>
-        </li>
-
-        <li>
-          <strong>Skill Overlap:</strong> {candidate.rules.skill_overlap.score}%
-          <br />
-          <small>{candidate.rules.skill_overlap.evidence}</small>
-        </li>
-      </ul>
+      <p>
+        <strong>Mandatory Skills:</strong> {c.rules.mandatory_skills.status}
+        <br />
+        <small>{c.rules.mandatory_skills.evidence}</small>
+      </p>
 
       <hr />
 
-      <h4>AI Analysis (JD‑Conditioned)</h4>
+      <h4>AI Analysis</h4>
 
       <h6>Strengths</h6>
       <ul>
-        {candidate.ai.strengths.map((s, i) => (
+        {c.ai.strengths.map((s, i) => (
           <li key={i}>{s}</li>
         ))}
       </ul>
 
       <h6>Red Flags</h6>
       <ul>
-        {candidate.ai.red_flags.map((rf, i) => (
-          <li key={i}>{rf}</li>
+        {c.ai.red_flags.map((r, i) => (
+          <li key={i}>{r}</li>
         ))}
       </ul>
+
+      {c.github && (
+        <>
+          <hr />
+          <p>
+            <strong>GitHub / Portfolio:</strong>{" "}
+            <a href={c.github} target="_blank" rel="noreferrer">
+              {c.github}
+            </a>
+          </p>
+        </>
+      )}
     </div>
   );
 }
