@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 const ResultsContext = createContext();
 
-export const ResultsProvider = ({ children }) => {
+export function ResultsProvider({ children }) {
   const [results, setResults] = useState([]);
 
   return (
@@ -10,6 +10,8 @@ export const ResultsProvider = ({ children }) => {
       {children}
     </ResultsContext.Provider>
   );
-};
+}
 
-export const useResults = () => useContext(ResultsContext);
+export function useResults() {
+  return useContext(ResultsContext);
+}

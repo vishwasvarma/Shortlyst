@@ -1,66 +1,46 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useResults } from "../context/ResultsContext";
 
 export default function CandidateDetail() {
-  const { index } = useParams();
-  const navigate = useNavigate();
+  const { id } = useParams();
   const { results } = useResults();
 
-  const c = results[index];
-  if (!c) return <p>Candidate not found</p>;
+  const candidate = results[id];
+
+  if (!candidate) {
+    return (
+      <div className="page-wrapper">
+        <div className="container-fluid px-5">
+          <p>Candidate not found</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="card p-4 shadow">
-      <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
-        ← Back
-      </button>
+    <div className="page-wrapper">
+      <div className="container-fluid px-5">
+        <h2 className="page-title">{candidate.filename}</h2>
+        <p className="page-subtitle">
+          {candidate.decision} • {candidate.final_score}%
+        </p>
 
-      <h2>{c.filename}</h2>
-      <p>
-        <strong>Decision:</strong> {c.decision}
-      </p>
-      <p>
-        <strong>Score:</strong> {c.final_score}%
-      </p>
+        <div className="theme-card">
+          <h5>Strengths</h5>
+          <ul>
+            {candidate.ai?.strengths?.map((s, i) => (
+              <li key={i}>{s}</li>
+            ))}
+          </ul>
 
-      <hr />
-
-      <h4>Rule Evaluation</h4>
-      <p>
-        <strong>Mandatory Skills:</strong> {c.rules.mandatory_skills.status}
-        <br />
-        <small>{c.rules.mandatory_skills.evidence}</small>
-      </p>
-
-      <hr />
-
-      <h4>AI Analysis</h4>
-
-      <h6>Strengths</h6>
-      <ul>
-        {c.ai.strengths.map((s, i) => (
-          <li key={i}>{s}</li>
-        ))}
-      </ul>
-
-      <h6>Red Flags</h6>
-      <ul>
-        {c.ai.red_flags.map((r, i) => (
-          <li key={i}>{r}</li>
-        ))}
-      </ul>
-
-      {c.github && (
-        <>
-          <hr />
-          <p>
-            <strong>GitHub / Portfolio:</strong>{" "}
-            <a href={c.github} target="_blank" rel="noreferrer">
-              {c.github}
-            </a>
-          </p>
-        </>
-      )}
+          <h5 className="mt-4">Red Flags</h5>
+          <ul>
+            {candidate.ai?.red_flags?.map((rf, i) => (
+              <li key={i}>{rf}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

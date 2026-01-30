@@ -26,7 +26,7 @@ export default function Jobs() {
       if (!res.ok) throw new Error("Upload failed");
 
       setMessage("Job Description uploaded successfully");
-    } catch {
+    } catch (err) {
       setMessage("Failed to upload Job Description");
     } finally {
       setLoading(false);
@@ -36,16 +36,17 @@ export default function Jobs() {
   return (
     <div className="page-wrapper">
       <div className="container-fluid px-5">
-        <h2 className="page-title">Create Job Description</h2>
+        <h2 className="page-title">Add Job Description</h2>
         <p className="page-subtitle">
-          Paste or upload your job description to start screening candidates.
+          Paste or upload the job description to start screening candidates.
         </p>
 
-        <div className="theme-card">
+        {/* NARROW CARD ONLY FOR JD */}
+        <div className="theme-card jd-narrow">
           <form onSubmit={handleSubmit}>
             <textarea
               className="theme-textarea mb-4"
-              placeholder="Paste job description text (optional)"
+              placeholder="Paste job description text here (optional)"
               value={jdText}
               onChange={(e) => setJdText(e.target.value)}
             />
@@ -59,7 +60,7 @@ export default function Jobs() {
               />
 
               <button className="theme-btn" type="submit" disabled={loading}>
-                {loading ? "Uploading..." : "Upload"}
+                {loading ? "Uploading..." : "Upload JD"}
               </button>
             </div>
 

@@ -1,18 +1,33 @@
 import { useState } from "react";
 import { useResults } from "../context/ResultsContext";
+import { useNavigate } from "react-router-dom";
 
 export default function UploadResumes() {
   const { setResults } = useResults();
+  const navigate = useNavigate();
+
   const [files, setFiles] = useState([]);
+  const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const handleFileChange = (e) => {
+    const selected = Array.from(e.target.files);
+    setFiles(selected);
+    setLinks(selected.map(() => ""));
+  };
+
+  const handleLinkChange = (index, value) => {
+    const updated = [...links];
+    updated[index] = value;
+    setLinks(updated);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    for (let file of files) {
-      formData.append("resumes", file);
-    }
+    files.forEach((file) => formData.append("resumes", file));
+    links.forEach((link) => formData.append("github_links", link));
 
     try {
       setLoading(true);
@@ -23,6 +38,9 @@ export default function UploadResumes() {
 
       const data = await res.json();
       setResults(data.results);
+
+      // ✅ AUTO GO TO RESULTS
+      navigate("/results");
     } catch (err) {
       console.error(err);
     } finally {
@@ -35,10 +53,9 @@ export default function UploadResumes() {
       <div className="container-fluid px-5">
         <h2 className="page-title">Upload Resumes</h2>
         <p className="page-subtitle">
-          Upload candidate resumes to analyze against the job description.
+          Upload resumes with optional GitHub / portfolio links.
         </p>
 
-        {/* ✅ SAME CARD AS JD PAGE */}
         <div className="theme-card">
           <form onSubmit={handleSubmit}>
             <input
@@ -46,12 +63,30 @@ export default function UploadResumes() {
               multiple
               accept=".pdf,.docx"
               className="theme-input mb-4"
-              onChange={(e) => setFiles(e.target.files)}
+              onChange={handleFileChange}
             />
 
-            <button className="theme-btn" type="submit" disabled={loading}>
-              {loading ? "Analyzing..." : "Analyze Resumes"}
-            </button>
+            {files.map((file, i) => (
+              <div key={i} className="mb-3">
+                <label className="text-muted">
+                  {file.name} — GitHub / Portfolio (optional)
+                </label>
+                <input
+                  type="url"
+                  className="theme-input mt-1"
+                  placeholder="https://github.com/username"
+                  value={links[i]}
+                  onChange={(e) => handleLinkChange(i, e.target.value)}
+                />
+              </div>
+            ))}
+
+            {/* GAP BETWEEN INPUT & BUTTON */}
+            <div className="mt-4">
+              <button className="theme-btn" type="submit" disabled={loading}>
+                {loading ? "Analyzing..." : "Analyze Resumes"}
+              </button>
+            </div>
           </form>
         </div>
       </div>

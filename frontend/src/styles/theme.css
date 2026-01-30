@@ -111,3 +111,75 @@ body {
 .table tbody tr:hover {
   background: rgba(255, 255, 255, 0.05);
 }
+
+/* Results list styling */
+.result-item {
+  background: transparent;
+  padding: 16px 0;
+}
+
+.result-item h5 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.result-item ul {
+  margin-top: 6px;
+  padding-left: 18px;
+}
+
+.result-item li {
+  color: #d0d0d0;
+  font-size: 14px;
+}
+
+.result-item hr {
+  border-color: #333;
+}
+/* Decision badges */
+.badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-shortlisted {
+  background: rgba(0, 200, 83, 0.15);
+  color: #00c853;
+}
+
+.badge-rejected {
+  background: rgba(244, 67, 54, 0.15);
+  color: #f44336;
+}
+
+.badge-review {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+/* Results tabs */
+.result-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.result-tab {
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  background: #2a2a2a;
+  color: #bdbdbd;
+}
+
+.result-tab.active {
+  background: #000000;
+  color: #ffffff;
+}
+/* Narrow container for JD input only */
+.jd-narrow {
+  max-width: 900px; /* controls width */
+  margin: 0 auto; /* centers it */
+}
