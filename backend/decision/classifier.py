@@ -9,7 +9,6 @@ Rules enforced:
    - else → Rejected
 """
 
-
 def classify(rules):
     """
     Parameters:
@@ -25,11 +24,9 @@ def classify(rules):
     str: "Shortlisted" | "Review Later" | "Rejected"
     """
 
-    # 🔴 HARD REJECT: mandatory skills missing
     if rules.get("mandatory_skills", {}).get("status") == "fail":
         return "Rejected"
 
-    # Score-based decision (only if mandatory skills PASS)
     score = rules.get("final_score", 0)
 
     if score >= 95:
