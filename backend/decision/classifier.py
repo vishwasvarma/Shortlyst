@@ -4,9 +4,9 @@ def classify(rules):
 
     score = rules["final_score"]
 
-    if score >= 75:
+    if score >= 95:
         return "Shortlisted"
-    elif score >= 50:
+    elif score >= 80:
         return "Review Later"
     else:
         return "Rejected"

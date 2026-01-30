@@ -68,7 +68,7 @@ export default function UploadResumes() {
 
             {files.map((file, i) => (
               <div key={i} className="mb-3">
-                <label className="text-muted">
+                <label style={{ color: "#bdbdbd" }}>
                   {file.name} — GitHub / Portfolio (optional)
                 </label>
                 <input

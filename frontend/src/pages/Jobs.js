@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Jobs() {
   const [jdText, setJdText] = useState("");
   const [jdFile, setJdFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [jdUploaded, setJdUploaded] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +30,8 @@ export default function Jobs() {
       if (!res.ok) throw new Error("Upload failed");
 
       setMessage("Job Description uploaded successfully");
-    } catch (err) {
+      setJdUploaded(true);
+    } catch {
       setMessage("Failed to upload Job Description");
     } finally {
       setLoading(false);
@@ -37,11 +42,8 @@ export default function Jobs() {
     <div className="page-wrapper">
       <div className="container-fluid px-5">
         <h2 className="page-title">Add Job Description</h2>
-        <p className="page-subtitle">
-          Paste or upload the job description to start screening candidates.
-        </p>
+        <p className="page-subtitle">Upload or paste the job description.</p>
 
-        {/* NARROW CARD ONLY FOR JD */}
         <div className="theme-card jd-narrow">
           <form onSubmit={handleSubmit}>
             <textarea
@@ -68,6 +70,19 @@ export default function Jobs() {
               <p className="mt-3" style={{ color: "#bdbdbd" }}>
                 {message}
               </p>
+            )}
+
+            {/* ✅ ADD RESUMES BUTTON */}
+            {jdUploaded && (
+              <div className="mt-4">
+                <button
+                  type="button"
+                  className="theme-btn"
+                  onClick={() => navigate("/resumes")}
+                >
+                  Add Resumes →
+                </button>
+              </div>
             )}
           </form>
         </div>

@@ -1,10 +1,12 @@
 {
   "structured": {
-    "required_skills": [],
-    "preferred_skills": [
-      "python",
-      "sql"
+    "required_skills": [
+      "git"
     ],
-    "role_keywords": []
+    "preferred_skills": [],
+    "role_keywords": [
+      "Web",
+      "Backend"
+    ]
   }
 }
