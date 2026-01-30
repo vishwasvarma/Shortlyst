@@ -1,38 +1,40 @@
 [
   {
-    "filename": "resume.pdf",
-    "decision": "Shortlisted",
-    "final_score": 100,
+    "filename": "resum.docx",
+    "decision": "Rejected",
+    "final_score": 10,
     "rules": {
       "mandatory_skills": {
-        "status": "pass",
-        "missing": [],
-        "evidence": "All mandatory skills present"
-      },
-      "skill_overlap": {
-        "status": "pass",
-        "score": 100,
-        "matched": [
+        "status": "fail",
+        "missing": [
           "git"
         ],
-        "evidence": "1 out of 1 JD skills matched"
+        "evidence": "Missing mandatory skills: git"
+      },
+      "skill_overlap": {
+        "status": "fail",
+        "score": 0,
+        "matched": [],
+        "evidence": "0 out of 1 JD skills matched"
       },
       "github": {
-        "status": "not_specified",
-        "evidence": "No GitHub profile provided"
+        "status": "pass",
+        "evidence": "GitHub profile provided"
       },
-      "final_score": 100
+      "final_score": 10
     },
-    "github": null,
+    "github": "https://www.youtube.com/watch?v=m7Bc3pLyij0&list=RDu2ah9tWTkmk&index=27",
     "ai": {
       "strengths": [
-        "Strong alignment in git as required by the JD"
+        "GitHub profile provided, indicating proof of work"
       ],
       "red_flags": [
-        "No GitHub/portfolio link provided for skill validation"
+        "Missing git which is required in the JD"
       ],
-      "jd_mapped_projects": [],
-      "summary": "Overall JD match score is 100%"
+      "jd_mapped_projects": [
+        "Public repositories can be reviewed for JD\u2011relevant projects"
+      ],
+      "summary": "Overall JD match score is 10%"
     }
   }
 ]

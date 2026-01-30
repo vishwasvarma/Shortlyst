@@ -1,8 +1,36 @@
+"""
+Classifier logic for candidate decision.
+
+Rules enforced:
+1. If ANY mandatory skill is missing → Rejected (hard rule)
+2. Only if all mandatory skills are present:
+   - score >= 95 → Shortlisted
+   - score >= 80 → Review Later
+   - else → Rejected
+"""
+
+
 def classify(rules):
-    if rules["mandatory_skills"]["status"] == "fail":
+    """
+    Parameters:
+    rules (dict): {
+        "mandatory_skills": {
+            "status": "pass" | "fail",
+            "missing": [list of missing skills]
+        },
+        "final_score": int or float
+    }
+
+    Returns:
+    str: "Shortlisted" | "Review Later" | "Rejected"
+    """
+
+    # 🔴 HARD REJECT: mandatory skills missing
+    if rules.get("mandatory_skills", {}).get("status") == "fail":
         return "Rejected"
 
-    score = rules["final_score"]
+    # Score-based decision (only if mandatory skills PASS)
+    score = rules.get("final_score", 0)
 
     if score >= 95:
         return "Shortlisted"
