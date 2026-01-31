@@ -7,10 +7,10 @@
       "mandatory_skills": {
         "status": "fail",
         "missing": [
-          "react",
-          "rest api"
+          "rest api",
+          "react"
         ],
-        "evidence": "Missing mandatory skills: react, rest api"
+        "evidence": "Missing mandatory skills: rest api, react"
       },
       "skill_overlap": {
         "status": "pass",
@@ -34,12 +34,12 @@
       "strengths": [
         "Strong alignment in git as required by the JD",
         "Strong alignment in javascript as required by the JD",
-        "Strong alignment in html as required by the JD",
-        "Strong alignment in css as required by the JD"
+        "Strong alignment in css as required by the JD",
+        "Strong alignment in html as required by the JD"
       ],
       "red_flags": [
-        "Missing react which is required in the JD",
         "Missing rest api which is required in the JD",
+        "Missing react which is required in the JD",
         "No GitHub/portfolio link provided for skill validation"
       ],
       "jd_mapped_projects": [],
@@ -79,11 +79,11 @@
     "ai": {
       "strengths": [
         "Strong alignment in git as required by the JD",
-        "Strong alignment in react as required by the JD",
         "Strong alignment in javascript as required by the JD",
-        "Strong alignment in html as required by the JD",
         "Strong alignment in css as required by the JD",
-        "Strong alignment in rest api as required by the JD"
+        "Strong alignment in rest api as required by the JD",
+        "Strong alignment in html as required by the JD",
+        "Strong alignment in react as required by the JD"
       ],
       "red_flags": [
         "No GitHub/portfolio link provided for skill validation"
@@ -125,11 +125,11 @@
     "ai": {
       "strengths": [
         "Strong alignment in git as required by the JD",
-        "Strong alignment in react as required by the JD",
         "Strong alignment in javascript as required by the JD",
-        "Strong alignment in html as required by the JD",
         "Strong alignment in css as required by the JD",
-        "Strong alignment in rest api as required by the JD"
+        "Strong alignment in rest api as required by the JD",
+        "Strong alignment in html as required by the JD",
+        "Strong alignment in react as required by the JD"
       ],
       "red_flags": [
         "No GitHub/portfolio link provided for skill validation"

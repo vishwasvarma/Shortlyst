@@ -1,90 +1,87 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useResults } from "../context/ResultsContext";
 
-export default function Jobs() {
-  const [jdText, setJdText] = useState("");
-  const [jdFile, setJdFile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [jdUploaded, setJdUploaded] = useState(false);
-
+export default function Dashboard() {
   const navigate = useNavigate();
+  const { results } = useResults();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    if (jdFile) {
-      formData.append("jd_file", jdFile);
-    } else {
-      formData.append("jd_text", jdText);
-    }
-
-    try {
-      setLoading(true);
-      const res = await fetch("http://localhost:5000/api/jobs", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error("Upload failed");
-
-      setMessage("Job Description uploaded successfully");
-      setJdUploaded(true);
-    } catch {
-      setMessage("Failed to upload Job Description");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const total = results.length;
+  const shortlisted = results.filter(
+    (r) => r.decision === "Shortlisted",
+  ).length;
+  const rejected = results.filter((r) => r.decision === "Rejected").length;
+  const reviewLater = results.filter(
+    (r) => r.decision === "Review Later",
+  ).length;
 
   return (
     <div className="page-wrapper">
       <div className="container-fluid px-5">
-        <h2 className="page-title">Add Job Description</h2>
-        <p className="page-subtitle">Upload or paste the job description.</p>
+        <h2 className="page-title">Dashboard</h2>
 
-        <div className="theme-card jd-narrow">
-          <form onSubmit={handleSubmit}>
-            <textarea
-              className="theme-textarea mb-4"
-              placeholder="Paste job description text here (optional)"
-              value={jdText}
-              onChange={(e) => setJdText(e.target.value)}
-            />
+        {/* CARD 1 — ACTION */}
+        <div className="theme-card jd-narrow mb-4">
+          <p style={{ textAlign: "center" }}>
+            Start by adding a Job Description, then upload resumes to analyze
+            candidates.
+          </p>
 
-            <div className="d-flex align-items-center gap-3">
-              <input
-                type="file"
-                className="theme-input"
-                accept=".pdf,.docx"
-                onChange={(e) => setJdFile(e.target.files[0])}
-              />
+          <div className="mt-4 text-center">
+            <button className="theme-btn" onClick={() => navigate("/jobs")}>
+              Add Job Description →
+            </button>
+          </div>
+        </div>
 
-              <button className="theme-btn" type="submit" disabled={loading}>
-                {loading ? "Uploading..." : "Upload JD"}
-              </button>
+        {/* CARD 2 — OVERVIEW */}
+        <div className="theme-card mb-4">
+          <p
+            style={{
+              margin: 0,
+              textAlign: "center",
+              fontWeight: 500,
+            }}
+          >
+            Resumes are checked against the job description to find the best
+            matching candidates.
+          </p>
+        </div>
+
+        {/* CARD 3 — RESULTS SUMMARY (ALWAYS SHOWN) */}
+        <div className="theme-card">
+          <h4 className="mb-3">Latest Screening Results</h4>
+
+          <div className="d-flex flex-wrap gap-4">
+            <div>
+              <strong>Total Resumes</strong>
+              <div style={{ color: "#bdbdbd" }}>{total}</div>
             </div>
 
-            {message && (
-              <p className="mt-3" style={{ color: "#bdbdbd" }}>
-                {message}
-              </p>
-            )}
+            <div>
+              <strong>Shortlisted</strong>
+              <div style={{ color: "#00c853" }}>{shortlisted}</div>
+            </div>
 
-            {/* ✅ ADD RESUMES BUTTON */}
-            {jdUploaded && (
-              <div className="mt-4">
-                <button
-                  type="button"
-                  className="theme-btn"
-                  onClick={() => navigate("/resumes")}
-                >
-                  Add Resumes →
-                </button>
-              </div>
-            )}
-          </form>
+            <div>
+              <strong>Rejected</strong>
+              <div style={{ color: "#f44336" }}>{rejected}</div>
+            </div>
+
+            <div>
+              <strong>Review Later</strong>
+              <div style={{ color: "#ffc107" }}>{reviewLater}</div>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <button
+              className="theme-btn"
+              onClick={() => navigate("/results")}
+              disabled={total === 0}
+            >
+              View Full Results →
+            </button>
+          </div>
         </div>
       </div>
     </div>
