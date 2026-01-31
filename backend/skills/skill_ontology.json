@@ -1,7 +1,47 @@
 {
   "python": ["python"],
-  "sql": ["sql"],
+  "sql": ["sql", "mysql", "postgresql", "sqlite"],
   "flask": ["flask"],
-  "machine learning": ["machine learning", "ml"],
-  "git": ["git", "github"]
+  "django": ["django"],
+  "fastapi": ["fastapi"],
+
+  "machine learning": [
+    "machine learning",
+    "ml",
+    "supervised learning",
+    "unsupervised learning"
+  ],
+
+  "deep learning": ["deep learning", "dl", "neural networks", "cnn", "rnn"],
+
+  "data science": ["data science", "data analysis", "data analytics"],
+
+  "numpy": ["numpy"],
+  "pandas": ["pandas"],
+  "scikit-learn": ["scikit-learn", "sklearn"],
+  "tensorflow": ["tensorflow"],
+  "pytorch": ["pytorch"],
+
+  "git": ["git", "github", "gitlab", "bitbucket"],
+  "docker": ["docker"],
+  "kubernetes": ["kubernetes", "k8s"],
+
+  "html": ["html", "html5"],
+  "css": ["css", "css3"],
+  "javascript": ["javascript", "js", "ecmascript"],
+  "react": ["react", "reactjs"],
+  "node": ["node", "nodejs"],
+  "express": ["express", "expressjs"],
+
+  "rest api": ["rest api", "restful api", "api"],
+  "graphql": ["graphql"],
+
+  "cloud": ["aws", "amazon web services", "azure", "gcp", "google cloud"],
+
+  "linux": ["linux", "unix"],
+  "bash": ["bash", "shell scripting"],
+
+  "nlp": ["nlp", "natural language processing", "text processing"],
+
+  "computer vision": ["computer vision", "cv", "image processing"]
 }

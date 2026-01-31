@@ -140,6 +140,31 @@ def export_csv():
         download_name="resume_screening_results.csv",
         mimetype="text/csv"
     )
+# ---------------- HUMAN DECISION OVERRIDE ----------------
+@app.route("/api/decision/<int:index>", methods=["POST"])
+def api_update_decision(index):
+    if not os.path.exists(RESULTS_FILE):
+        return jsonify({"error": "Results not found"}), 400
+
+    with open(RESULTS_FILE) as f:
+        results = json.load(f)
+
+    if index < 0 or index >= len(results):
+        return jsonify({"error": "Invalid candidate index"}), 400
+
+    data = request.json
+    decision = data.get("decision")
+
+    if decision not in ["Shortlisted", "Rejected"]:
+        return jsonify({"error": "Invalid decision"}), 400
+
+    # ✅ ONLY override decision (score + rules unchanged)
+    results[index]["decision"] = decision
+
+    with open(RESULTS_FILE, "w") as f:
+        json.dump(results, f, indent=2)
+
+    return jsonify({"success": True, "decision": decision})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

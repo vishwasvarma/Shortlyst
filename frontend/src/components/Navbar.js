@@ -13,7 +13,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-dark bg-dark px-4">
-      <span className="navbar-brand">Resume Screener</span>
+      <span className="navbar-brand">Shortlyst</span>
 
       <div>
         <NavLink to="/" end style={linkStyle}>
