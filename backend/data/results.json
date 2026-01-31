@@ -1,5 +1,79 @@
 [
   {
+    "filename": "1.pdf",
+    "decision": "Rejected",
+    "final_score": 0,
+    "rules": {
+      "mandatory_skills": {
+        "status": "fail",
+        "missing": [
+          "git"
+        ],
+        "evidence": "Missing mandatory skills: git"
+      },
+      "skill_overlap": {
+        "status": "fail",
+        "score": 0,
+        "matched": [],
+        "evidence": "0 out of 1 JD skills matched"
+      },
+      "github": {
+        "status": "not_specified",
+        "evidence": "No GitHub profile provided"
+      },
+      "final_score": 0
+    },
+    "github": null,
+    "ai": {
+      "strengths": [
+        "Limited alignment with JD requirements"
+      ],
+      "red_flags": [
+        "Missing git which is required in the JD",
+        "No GitHub/portfolio link provided for skill validation"
+      ],
+      "jd_mapped_projects": [],
+      "summary": "Overall JD match score is 0%"
+    }
+  },
+  {
+    "filename": "2.pdf",
+    "decision": "Rejected",
+    "final_score": 0,
+    "rules": {
+      "mandatory_skills": {
+        "status": "fail",
+        "missing": [
+          "git"
+        ],
+        "evidence": "Missing mandatory skills: git"
+      },
+      "skill_overlap": {
+        "status": "fail",
+        "score": 0,
+        "matched": [],
+        "evidence": "0 out of 1 JD skills matched"
+      },
+      "github": {
+        "status": "not_specified",
+        "evidence": "No GitHub profile provided"
+      },
+      "final_score": 0
+    },
+    "github": null,
+    "ai": {
+      "strengths": [
+        "Limited alignment with JD requirements"
+      ],
+      "red_flags": [
+        "Missing git which is required in the JD",
+        "No GitHub/portfolio link provided for skill validation"
+      ],
+      "jd_mapped_projects": [],
+      "summary": "Overall JD match score is 0%"
+    }
+  },
+  {
     "filename": "resum.docx",
     "decision": "Shortlisted",
     "final_score": 100,

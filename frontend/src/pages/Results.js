@@ -3,7 +3,7 @@ import { useResults } from "../context/ResultsContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Results() {
-  const { results } = useResults();
+  const { results, setResults } = useResults();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("All");
 
@@ -28,12 +28,24 @@ export default function Results() {
     return "badge badge-review";
   };
 
+  const updateDecision = async (index, decision) => {
+    await fetch(`http://localhost:5000/api/decision/${index}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ decision }),
+    });
+
+    const updated = [...results];
+    updated[index].decision = decision;
+    setResults(updated);
+  };
+
   return (
     <div className="page-wrapper">
       <div className="container-fluid px-5">
         <h2 className="page-title">Screening Results</h2>
 
-        {/* CSV DOWNLOAD — RIGHT ALIGNED */}
+        {/* CSV DOWNLOAD */}
         <div className="d-flex justify-content-end mb-3">
           <button
             className="theme-btn"
@@ -66,23 +78,25 @@ export default function Results() {
             );
 
             return (
-              <div
-                key={realIndex}
-                className="result-item"
-                onClick={() => navigate(`/candidate/${realIndex}`)}
-                style={{ cursor: "pointer" }}
-              >
-                <div className="d-flex justify-content-between align-items-center">
-                  <h5>{r.filename}</h5>
-                  <span className={getBadgeClass(r.decision)}>
-                    {r.decision}
-                  </span>
+              <div key={realIndex} className="result-item">
+                {/* HEADER */}
+                <div
+                  onClick={() => navigate(`/candidate/${realIndex}`)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="d-flex justify-content-between align-items-center">
+                    <h5>{r.filename}</h5>
+                    <span className={getBadgeClass(r.decision)}>
+                      {r.decision}
+                    </span>
+                  </div>
+
+                  <div style={{ color: "#bdbdbd", marginTop: "6px" }}>
+                    Match Score: {r.final_score}%
+                  </div>
                 </div>
 
-                <div style={{ color: "#bdbdbd", marginTop: "6px" }}>
-                  Match Score: {r.final_score}%
-                </div>
-
+                {/* AI STRENGTHS */}
                 <div className="mt-3">
                   <strong>Strengths</strong>
                   <ul>
@@ -92,6 +106,7 @@ export default function Results() {
                   </ul>
                 </div>
 
+                {/* AI RED FLAGS */}
                 <div className="mt-2">
                   <strong>Red Flags</strong>
                   <ul>
@@ -101,21 +116,39 @@ export default function Results() {
                   </ul>
                 </div>
 
+                {/* RULE CHECKS (RESTORED) */}
                 <div className="mt-3">
                   <strong>Rule Checks</strong>
                   <ul>
                     <li>
                       Missing Mandatory Skills:{" "}
-                      {r.rules?.missing_mandatory_skills?.length > 0
-                        ? r.rules.missing_mandatory_skills.join(", ")
+                      {r.rules?.mandatory_skills?.missing?.length > 0
+                        ? r.rules.mandatory_skills.missing.join(", ")
                         : "None"}
                     </li>
                     <li>
-                      GitHub Profile:{" "}
-                      {r.rules?.github_present ? "Present" : "Not Provided"}
+                      GitHub Profile: {r.github ? "Provided" : "Not Provided"}
                     </li>
                   </ul>
                 </div>
+
+                {/* HUMAN-IN-THE-LOOP */}
+                {r.decision === "Review Later" && (
+                  <div className="mt-3">
+                    <button
+                      className="btn btn-success btn-sm me-2"
+                      onClick={() => updateDecision(realIndex, "Shortlisted")}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => updateDecision(realIndex, "Rejected")}
+                    >
+                      Reject
+                    </button>
+                  </div>
+                )}
 
                 <hr />
               </div>
