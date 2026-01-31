@@ -95,7 +95,7 @@ def api_analyze():
 
     return {"results": results}
 
-# ---------------- CSV EXPORT ----------------
+
 @app.route("/api/export", methods=["GET"])
 def export_csv():
     if not os.path.exists(RESULTS_FILE):
@@ -140,7 +140,7 @@ def export_csv():
         download_name="resume_screening_results.csv",
         mimetype="text/csv"
     )
-# ---------------- HUMAN DECISION OVERRIDE ----------------
+
 @app.route("/api/decision/<int:index>", methods=["POST"])
 def api_update_decision(index):
     if not os.path.exists(RESULTS_FILE):
@@ -158,7 +158,6 @@ def api_update_decision(index):
     if decision not in ["Shortlisted", "Rejected"]:
         return jsonify({"error": "Invalid decision"}), 400
 
-    # ✅ ONLY override decision (score + rules unchanged)
     results[index]["decision"] = decision
 
     with open(RESULTS_FILE, "w") as f:

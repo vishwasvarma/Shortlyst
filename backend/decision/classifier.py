@@ -32,6 +32,6 @@ def classify(rules):
     if score >= 95:
         return "Shortlisted"
     elif score >= 80:
-        return "Review Later"
+        return "Review Later"  
     else:
         return "Rejected"

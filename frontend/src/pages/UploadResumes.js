@@ -38,8 +38,6 @@ export default function UploadResumes() {
 
       const data = await res.json();
       setResults(data.results);
-
-      // ✅ AUTO GO TO RESULTS
       navigate("/results");
     } catch (err) {
       console.error(err);
@@ -58,6 +56,7 @@ export default function UploadResumes() {
 
         <div className="theme-card">
           <form onSubmit={handleSubmit}>
+            {/* DEFAULT FILE INPUT — UNCHANGED */}
             <input
               type="file"
               multiple
@@ -66,22 +65,29 @@ export default function UploadResumes() {
               onChange={handleFileChange}
             />
 
+            {/* GITHUB / PORTFOLIO INPUTS — BIGGER UI */}
             {files.map((file, i) => (
-              <div key={i} className="mb-3">
+              <div key={i} className="mb-4">
                 <label style={{ color: "#bdbdbd" }}>
                   {file.name} — GitHub / Portfolio (optional)
                 </label>
+
                 <input
                   type="url"
-                  className="theme-input mt-1"
-                  placeholder="https://github.com/username"
+                  className="theme-input mt-2"
+                  placeholder="https://github.com/username or portfolio link"
                   value={links[i]}
                   onChange={(e) => handleLinkChange(i, e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "16px",
+                    fontSize: "15px",
+                    borderRadius: "12px",
+                  }}
                 />
               </div>
             ))}
 
-            {/* GAP BETWEEN INPUT & BUTTON */}
             <div className="mt-4">
               <button className="theme-btn" type="submit" disabled={loading}>
                 {loading ? "Analyzing..." : "Analyze Resumes"}

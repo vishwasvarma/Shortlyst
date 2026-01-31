@@ -18,9 +18,6 @@ export default function Dashboard() {
     <div className="page-wrapper">
       <div className="container-fluid px-5">
         <h2 className="page-title">Dashboard</h2>
-        <p className="page-subtitle">
-          Overview of your JD‑aware resume screening
-        </p>
 
         {/* CARD 1 — ACTION */}
         <div className="theme-card jd-narrow mb-4">
@@ -29,14 +26,28 @@ export default function Dashboard() {
             candidates.
           </p>
 
-          <div className="mt-4">
+          <div className="mt-4 text-center">
             <button className="theme-btn" onClick={() => navigate("/jobs")}>
               Add Job Description →
             </button>
           </div>
         </div>
 
-        {/* CARD 2 — RESULTS SUMMARY */}
+        {/* CARD 2 — OVERVIEW */}
+        <div className="theme-card mb-4">
+          <p
+            style={{
+              margin: 0,
+              textAlign: "center",
+              fontWeight: 500,
+            }}
+          >
+            The system reviews resumes by matching them with the job
+            description.
+          </p>
+        </div>
+
+        {/* CARD 3 — RESULTS SUMMARY */}
         {total > 0 && (
           <div className="theme-card">
             <h4 className="mb-3">Latest Screening Results</h4>

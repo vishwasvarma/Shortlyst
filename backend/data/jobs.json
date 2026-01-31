@@ -2,11 +2,11 @@
   "structured": {
     "required_skills": [
       "git",
-      "react",
       "javascript",
-      "html",
       "css",
-      "rest api"
+      "rest api",
+      "html",
+      "react"
     ],
     "preferred_skills": [],
     "role_keywords": [

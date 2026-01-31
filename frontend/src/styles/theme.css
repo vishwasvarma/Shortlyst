@@ -183,3 +183,8 @@ body {
   max-width: 900px; /* controls width */
   margin: 0 auto; /* centers it */
 }
+button,
+.theme-btn,
+.result-tab {
+  cursor: pointer;
+}
