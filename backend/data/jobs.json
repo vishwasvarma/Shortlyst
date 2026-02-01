@@ -1,15 +1,15 @@
 {
   "structured": {
     "required_skills": [
-      "css",
-      "java",
-      "bootstrap",
       "rest api",
-      "git",
       "react",
+      "bootstrap",
+      "git",
+      "css",
       "javascript",
-      "r",
-      "html"
+      "java",
+      "html",
+      "r"
     ],
     "preferred_skills": [],
     "role_keywords": [

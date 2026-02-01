@@ -34,15 +34,15 @@
     "github": null,
     "ai": {
       "strengths": [
-        "Strong alignment in css as required by the JD",
-        "Strong alignment in java as required by the JD",
-        "Strong alignment in bootstrap as required by the JD",
         "Strong alignment in rest api as required by the JD",
-        "Strong alignment in git as required by the JD",
         "Strong alignment in react as required by the JD",
+        "Strong alignment in bootstrap as required by the JD",
+        "Strong alignment in git as required by the JD",
+        "Strong alignment in css as required by the JD",
         "Strong alignment in javascript as required by the JD",
-        "Strong alignment in r as required by the JD",
-        "Strong alignment in html as required by the JD"
+        "Strong alignment in java as required by the JD",
+        "Strong alignment in html as required by the JD",
+        "Strong alignment in r as required by the JD"
       ],
       "red_flags": [
         "No GitHub/portfolio link provided for skill validation"
@@ -59,11 +59,11 @@
       "mandatory_skills": {
         "status": "fail",
         "missing": [
-          "bootstrap",
           "rest api",
-          "react"
+          "react",
+          "bootstrap"
         ],
-        "evidence": "Missing mandatory skills: bootstrap, rest api, react"
+        "evidence": "Missing mandatory skills: rest api, react, bootstrap"
       },
       "skill_overlap": {
         "status": "pass",
@@ -87,17 +87,17 @@
     "github": null,
     "ai": {
       "strengths": [
-        "Strong alignment in css as required by the JD",
-        "Strong alignment in java as required by the JD",
         "Strong alignment in git as required by the JD",
+        "Strong alignment in css as required by the JD",
         "Strong alignment in javascript as required by the JD",
-        "Strong alignment in r as required by the JD",
-        "Strong alignment in html as required by the JD"
+        "Strong alignment in java as required by the JD",
+        "Strong alignment in html as required by the JD",
+        "Strong alignment in r as required by the JD"
       ],
       "red_flags": [
-        "Missing bootstrap which is required in the JD",
         "Missing rest api which is required in the JD",
         "Missing react which is required in the JD",
+        "Missing bootstrap which is required in the JD",
         "No GitHub/portfolio link provided for skill validation"
       ],
       "jd_mapped_projects": [],
@@ -140,14 +140,14 @@
     "github": null,
     "ai": {
       "strengths": [
-        "Strong alignment in css as required by the JD",
-        "Strong alignment in java as required by the JD",
         "Strong alignment in rest api as required by the JD",
-        "Strong alignment in git as required by the JD",
         "Strong alignment in react as required by the JD",
+        "Strong alignment in git as required by the JD",
+        "Strong alignment in css as required by the JD",
         "Strong alignment in javascript as required by the JD",
-        "Strong alignment in r as required by the JD",
-        "Strong alignment in html as required by the JD"
+        "Strong alignment in java as required by the JD",
+        "Strong alignment in html as required by the JD",
+        "Strong alignment in r as required by the JD"
       ],
       "red_flags": [
         "Missing bootstrap which is required in the JD",
