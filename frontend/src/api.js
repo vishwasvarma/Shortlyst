@@ -1,13 +1,31 @@
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://shortlyst.onrender.com";
 
-export async function login(username, password) {
-  const response = await fetch(`${API_BASE}/api/login`, {
+export async function uploadJob(formData) {
+  const res = await fetch(`${API_BASE}/api/jobs`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ username, password }),
+    body: formData,
   });
+  return res.json();
+}
 
-  return response.ok;
+export async function analyzeResumes(formData) {
+  const res = await fetch(`${API_BASE}/api/analyze`, {
+    method: "POST",
+    body: formData,
+  });
+  return res.json();
+}
+
+export async function exportResults() {
+  const res = await fetch(`${API_BASE}/api/export`);
+  return res.blob();
+}
+
+export async function updateDecision(index, decision) {
+  const res = await fetch(`${API_BASE}/api/decision/${index}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ decision }),
+  });
+  return res.json();
 }
