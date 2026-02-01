@@ -1,27 +1,82 @@
 [
   {
-    "filename": "rej.docx",
+    "filename": "arjun.docx",
+    "decision": "Shortlisted",
+    "final_score": 100,
+    "rules": {
+      "mandatory_skills": {
+        "status": "pass",
+        "missing": [],
+        "evidence": "All mandatory skills present"
+      },
+      "skill_overlap": {
+        "status": "pass",
+        "score": 100,
+        "matched": [
+          "java",
+          "javascript",
+          "r",
+          "git",
+          "html",
+          "css",
+          "react",
+          "bootstrap",
+          "rest api"
+        ],
+        "evidence": "9 out of 9 JD skills matched"
+      },
+      "github": {
+        "status": "not_specified",
+        "evidence": "No GitHub profile provided"
+      },
+      "final_score": 100
+    },
+    "github": null,
+    "ai": {
+      "strengths": [
+        "Strong alignment in css as required by the JD",
+        "Strong alignment in java as required by the JD",
+        "Strong alignment in bootstrap as required by the JD",
+        "Strong alignment in rest api as required by the JD",
+        "Strong alignment in git as required by the JD",
+        "Strong alignment in react as required by the JD",
+        "Strong alignment in javascript as required by the JD",
+        "Strong alignment in r as required by the JD",
+        "Strong alignment in html as required by the JD"
+      ],
+      "red_flags": [
+        "No GitHub/portfolio link provided for skill validation"
+      ],
+      "jd_mapped_projects": [],
+      "summary": "Overall JD match score is 100%"
+    }
+  },
+  {
+    "filename": "karan.docx",
     "decision": "Rejected",
     "final_score": 66,
     "rules": {
       "mandatory_skills": {
         "status": "fail",
         "missing": [
+          "bootstrap",
           "rest api",
           "react"
         ],
-        "evidence": "Missing mandatory skills: rest api, react"
+        "evidence": "Missing mandatory skills: bootstrap, rest api, react"
       },
       "skill_overlap": {
         "status": "pass",
         "score": 66,
         "matched": [
+          "java",
+          "javascript",
+          "r",
           "git",
           "html",
-          "css",
-          "javascript"
+          "css"
         ],
-        "evidence": "4 out of 6 JD skills matched"
+        "evidence": "6 out of 9 JD skills matched"
       },
       "github": {
         "status": "not_specified",
@@ -32,12 +87,15 @@
     "github": null,
     "ai": {
       "strengths": [
+        "Strong alignment in css as required by the JD",
+        "Strong alignment in java as required by the JD",
         "Strong alignment in git as required by the JD",
         "Strong alignment in javascript as required by the JD",
-        "Strong alignment in css as required by the JD",
+        "Strong alignment in r as required by the JD",
         "Strong alignment in html as required by the JD"
       ],
       "red_flags": [
+        "Missing bootstrap which is required in the JD",
         "Missing rest api which is required in the JD",
         "Missing react which is required in the JD",
         "No GitHub/portfolio link provided for skill validation"
@@ -47,95 +105,56 @@
     }
   },
   {
-    "filename": "resum.docx",
-    "decision": "Shortlisted",
-    "final_score": 100,
+    "filename": "suresh kumar.docx",
+    "decision": "Rejected",
+    "final_score": 88,
     "rules": {
       "mandatory_skills": {
-        "status": "pass",
-        "missing": [],
-        "evidence": "All mandatory skills present"
+        "status": "fail",
+        "missing": [
+          "bootstrap"
+        ],
+        "evidence": "Missing mandatory skills: bootstrap"
       },
       "skill_overlap": {
         "status": "pass",
-        "score": 100,
+        "score": 88,
         "matched": [
+          "java",
+          "javascript",
+          "r",
           "git",
           "html",
           "css",
-          "javascript",
           "react",
           "rest api"
         ],
-        "evidence": "6 out of 6 JD skills matched"
+        "evidence": "8 out of 9 JD skills matched"
       },
       "github": {
         "status": "not_specified",
         "evidence": "No GitHub profile provided"
       },
-      "final_score": 100
+      "final_score": 88
     },
     "github": null,
     "ai": {
       "strengths": [
-        "Strong alignment in git as required by the JD",
-        "Strong alignment in javascript as required by the JD",
         "Strong alignment in css as required by the JD",
+        "Strong alignment in java as required by the JD",
         "Strong alignment in rest api as required by the JD",
-        "Strong alignment in html as required by the JD",
-        "Strong alignment in react as required by the JD"
+        "Strong alignment in git as required by the JD",
+        "Strong alignment in react as required by the JD",
+        "Strong alignment in javascript as required by the JD",
+        "Strong alignment in r as required by the JD",
+        "Strong alignment in html as required by the JD"
       ],
       "red_flags": [
+        "Missing bootstrap which is required in the JD",
         "No GitHub/portfolio link provided for skill validation"
       ],
       "jd_mapped_projects": [],
-      "summary": "Overall JD match score is 100%"
-    }
-  },
-  {
-    "filename": "short.docx",
-    "decision": "Shortlisted",
-    "final_score": 100,
-    "rules": {
-      "mandatory_skills": {
-        "status": "pass",
-        "missing": [],
-        "evidence": "All mandatory skills present"
-      },
-      "skill_overlap": {
-        "status": "pass",
-        "score": 100,
-        "matched": [
-          "git",
-          "html",
-          "css",
-          "javascript",
-          "react",
-          "rest api"
-        ],
-        "evidence": "6 out of 6 JD skills matched"
-      },
-      "github": {
-        "status": "not_specified",
-        "evidence": "No GitHub profile provided"
-      },
-      "final_score": 100
-    },
-    "github": null,
-    "ai": {
-      "strengths": [
-        "Strong alignment in git as required by the JD",
-        "Strong alignment in javascript as required by the JD",
-        "Strong alignment in css as required by the JD",
-        "Strong alignment in rest api as required by the JD",
-        "Strong alignment in html as required by the JD",
-        "Strong alignment in react as required by the JD"
-      ],
-      "red_flags": [
-        "No GitHub/portfolio link provided for skill validation"
-      ],
-      "jd_mapped_projects": [],
-      "summary": "Overall JD match score is 100%"
+      "summary": "Overall JD match score is 88%"
     }
   }
 ]

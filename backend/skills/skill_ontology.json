@@ -1,47 +1,142 @@
 {
   "python": ["python"],
-  "sql": ["sql", "mysql", "postgresql", "sqlite"],
+  "java": ["java"],
+  "javascript": ["javascript", "js", "ecmascript"],
+  "typescript": ["typescript", "ts"],
+  "go": ["go", "golang"],
+  "rust": ["rust"],
+  "ruby": ["ruby"],
+  "php": ["php"],
+  "scala": ["scala"],
+  "kotlin": ["kotlin"],
+  "swift": ["swift"],
+  "r": ["r", "r programming"],
+
+  "sql": ["sql", "mysql", "postgresql", "sqlite", "mariadb"],
+  "nosql": ["nosql", "mongodb", "cassandra", "dynamodb", "redis"],
+  "oracle": ["oracle database"],
+  "elasticsearch": ["elasticsearch"],
+
   "flask": ["flask"],
   "django": ["django"],
   "fastapi": ["fastapi"],
+  "spring boot": ["spring boot", "springboot"],
+  "nestjs": ["nestjs"],
+  "express": ["express", "expressjs"],
+  "laravel": ["laravel"],
+  "rails": ["ruby on rails", "rails"],
 
   "machine learning": [
     "machine learning",
     "ml",
     "supervised learning",
-    "unsupervised learning"
+    "unsupervised learning",
+    "reinforcement learning"
   ],
 
-  "deep learning": ["deep learning", "dl", "neural networks", "cnn", "rnn"],
+  "deep learning": [
+    "deep learning",
+    "dl",
+    "neural networks",
+    "cnn",
+    "rnn",
+    "lstm",
+    "transformers"
+  ],
 
   "data science": ["data science", "data analysis", "data analytics"],
+
+  "statistics": ["statistics", "probability", "statistical analysis"],
 
   "numpy": ["numpy"],
   "pandas": ["pandas"],
   "scikit-learn": ["scikit-learn", "sklearn"],
   "tensorflow": ["tensorflow"],
   "pytorch": ["pytorch"],
+  "keras": ["keras"],
+  "xgboost": ["xgboost"],
+  "lightgbm": ["lightgbm"],
 
   "git": ["git", "github", "gitlab", "bitbucket"],
   "docker": ["docker"],
   "kubernetes": ["kubernetes", "k8s"],
+  "terraform": ["terraform"],
+  "jenkins": ["jenkins"],
+  "ci/cd": ["ci/cd", "continuous integration", "continuous deployment"],
 
   "html": ["html", "html5"],
   "css": ["css", "css3"],
-  "javascript": ["javascript", "js", "ecmascript"],
   "react": ["react", "reactjs"],
-  "node": ["node", "nodejs"],
-  "express": ["express", "expressjs"],
+  "nextjs": ["next.js", "nextjs"],
+  "vue": ["vue", "vuejs"],
+  "angular": ["angular"],
+  "tailwind": ["tailwind", "tailwind css"],
+  "bootstrap": ["bootstrap"],
 
-  "rest api": ["rest api", "restful api", "api"],
+  "node": ["node", "nodejs"],
   "graphql": ["graphql"],
+  "rest api": ["rest api", "restful api", "api"],
+  "grpc": ["grpc"],
 
   "cloud": ["aws", "amazon web services", "azure", "gcp", "google cloud"],
 
   "linux": ["linux", "unix"],
   "bash": ["bash", "shell scripting"],
+  "powershell": ["powershell"],
 
-  "nlp": ["nlp", "natural language processing", "text processing"],
+  "nlp": [
+    "nlp",
+    "natural language processing",
+    "text processing",
+    "text mining"
+  ],
 
-  "computer vision": ["computer vision", "cv", "image processing"]
+  "computer vision": [
+    "computer vision",
+    "cv",
+    "image processing",
+    "object detection"
+  ],
+
+  "big data": ["big data", "hadoop", "spark", "pyspark"],
+  "data engineering": ["data engineering", "etl", "data pipelines"],
+
+  "testing": ["unit testing", "integration testing", "pytest", "jest", "mocha"],
+
+  "software design": [
+    "system design",
+    "design patterns",
+    "microservices",
+    "monolithic architecture"
+  ],
+  "llm": ["llm", "large language model", "large language models"],
+
+  "generative ai": ["generative ai", "gen ai", "genai"],
+
+  "openai": ["openai", "chatgpt", "gpt", "gpt-3", "gpt-4", "gpt-4o"],
+
+  "prompt engineering": [
+    "prompt engineering",
+    "prompt design",
+    "prompt tuning"
+  ],
+
+  "langchain": ["langchain"],
+
+  "llama": ["llama", "llama2", "llama 2", "llama 3"],
+
+  "huggingface": ["huggingface", "transformers"],
+
+  "vector databases": [
+    "vector database",
+    "vector databases",
+    "faiss",
+    "pinecone",
+    "weaviate",
+    "chroma"
+  ],
+
+  "retrieval augmented generation": ["rag", "retrieval augmented generation"],
+
+  "fine tuning": ["fine tuning", "fine-tuning", "model fine tuning"]
 }
