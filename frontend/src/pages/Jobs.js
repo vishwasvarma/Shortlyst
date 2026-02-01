@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { uploadJob } from "../api";
 
 export default function Jobs() {
   const [jdText, setJdText] = useState("");
@@ -22,16 +23,11 @@ export default function Jobs() {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/jobs", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error("Upload failed");
-
+      setMessage("");
+      await uploadJob(formData);
       setMessage("Job Description uploaded successfully");
       setJdUploaded(true);
-    } catch (err) {
+    } catch {
       setMessage("Failed to upload Job Description");
     } finally {
       setLoading(false);
@@ -46,7 +42,6 @@ export default function Jobs() {
 
         <div className="theme-card jd-narrow">
           <form onSubmit={handleSubmit}>
-            {/* JD TEXT */}
             <textarea
               className="theme-textarea mb-4"
               placeholder="Paste job description text here (optional)"
@@ -54,7 +49,6 @@ export default function Jobs() {
               onChange={(e) => setJdText(e.target.value)}
             />
 
-            {/* FILE UPLOAD + SUBMIT */}
             <div className="d-flex align-items-center gap-3 mb-3">
               <input
                 type="file"
@@ -70,14 +64,12 @@ export default function Jobs() {
               </div>
             </div>
 
-            {/* STATUS MESSAGE */}
             {message && (
               <p className="mt-3" style={{ color: "#bdbdbd" }}>
                 {message}
               </p>
             )}
 
-            {/* ADD RESUMES */}
             {jdUploaded && (
               <div className="mt-4">
                 <button

@@ -1,88 +1,56 @@
 import { useParams } from "react-router-dom";
 import { useResults } from "../context/ResultsContext";
+import { updateDecision } from "../api";
 
 export default function CandidateDetail() {
   const { id } = useParams();
   const { results, setResults } = useResults();
-  const candidate = results[id];
+  const c = results[id];
 
-  if (!candidate) {
-    return (
-      <div className="page-wrapper">
-        <div className="container-fluid px-5">
-          <p>Candidate not found</p>
-        </div>
-      </div>
-    );
-  }
-
-  const updateDecision = async (decision) => {
-    await fetch(`http://localhost:5000/api/decision/${id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ decision }),
-    });
-
-    const updated = [...results];
-    updated[id].decision = decision;
-    setResults(updated);
+  const changeDecision = async (d) => {
+    await updateDecision(id, d);
+    const r = [...results];
+    r[id].decision = d;
+    setResults(r);
   };
 
   return (
     <div className="page-wrapper">
       <div className="container-fluid px-5">
-        <h2 className="page-title">{candidate.filename}</h2>
-        <p className="page-subtitle">
-          {candidate.decision} • {candidate.final_score}%
+        <h2>{c.filename}</h2>
+        <p>
+          {c.decision} • {c.final_score}%
         </p>
 
-        {/* HUMAN IN THE LOOP */}
-        {candidate.decision === "Review Later" && (
-          <div className="mb-4">
+        {c.decision === "Review Later" && (
+          <>
             <button
-              className="btn btn-success me-2"
-              onClick={() => updateDecision("Shortlisted")}
+              className="theme-btn"
+              onClick={() => changeDecision("Shortlisted")}
             >
               Approve
             </button>
             <button
-              className="btn btn-danger"
-              onClick={() => updateDecision("Rejected")}
+              className="theme-btn danger ms-2"
+              onClick={() => changeDecision("Rejected")}
             >
               Reject
             </button>
-          </div>
+          </>
         )}
 
-        <div className="theme-card">
-          {/* STRENGTHS */}
-          <h5>Strengths</h5>
+        <div className="theme-card mt-3">
+          <h4>Strengths</h4>
           <ul>
-            {candidate.ai?.strengths?.map((s, i) => (
+            {c.ai?.strengths?.map((s, i) => (
               <li key={i}>{s}</li>
             ))}
           </ul>
-
-          {/* RED FLAGS */}
-          <h5 className="mt-4">Red Flags</h5>
+          <h4>Red Flags</h4>
           <ul>
-            {candidate.ai?.red_flags?.map((rf, i) => (
-              <li key={i}>{rf}</li>
+            {c.ai?.red_flags?.map((r, i) => (
+              <li key={i}>{r}</li>
             ))}
-          </ul>
-
-          {/* RULE CHECKS (RESTORED) */}
-          <h5 className="mt-4">Rule Checks</h5>
-          <ul>
-            <li>
-              Missing Mandatory Skills:{" "}
-              {candidate.rules?.mandatory_skills?.missing?.length > 0
-                ? candidate.rules.mandatory_skills.missing.join(", ")
-                : "None"}
-            </li>
-            <li>
-              GitHub Profile: {candidate.github ? "Provided" : "Not Provided"}
-            </li>
           </ul>
         </div>
       </div>
