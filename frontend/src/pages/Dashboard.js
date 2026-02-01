@@ -33,7 +33,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* OVERVIEW CARD */}
+        {/* INFO CARD */}
         <div className="theme-card mb-4">
           <p style={{ textAlign: "center", margin: 0 }}>
             Resumes are matched against the job description to help you identify
@@ -41,7 +41,7 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* RESULTS SUMMARY — ALWAYS VISIBLE */}
+        {/* SUMMARY CARD */}
         <div className="theme-card">
           <h4 className="mb-3">Latest Screening Results</h4>
 

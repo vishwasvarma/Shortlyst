@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useResults } from "../context/ResultsContext";
 import { useNavigate } from "react-router-dom";
+import { analyzeResumes } from "../api";
 
 export default function UploadResumes() {
   const { setResults } = useResults();
@@ -31,16 +32,11 @@ export default function UploadResumes() {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/analyze", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
+      const data = await analyzeResumes(formData);
       setResults(data.results);
       navigate("/results");
-    } catch (err) {
-      console.error(err);
+    } catch {
+      alert("Failed to analyze resumes");
     } finally {
       setLoading(false);
     }
@@ -56,7 +52,6 @@ export default function UploadResumes() {
 
         <div className="theme-card">
           <form onSubmit={handleSubmit}>
-            {/* DEFAULT FILE INPUT — UNCHANGED */}
             <input
               type="file"
               multiple
@@ -65,7 +60,6 @@ export default function UploadResumes() {
               onChange={handleFileChange}
             />
 
-            {/* GITHUB / PORTFOLIO INPUTS — BIGGER UI */}
             {files.map((file, i) => (
               <div key={i} className="mb-4">
                 <label style={{ color: "#bdbdbd" }}>
@@ -88,11 +82,9 @@ export default function UploadResumes() {
               </div>
             ))}
 
-            <div className="mt-4">
-              <button className="theme-btn" type="submit" disabled={loading}>
-                {loading ? "Analyzing..." : "Analyze Resumes"}
-              </button>
-            </div>
+            <button className="theme-btn" type="submit" disabled={loading}>
+              {loading ? "Analyzing..." : "Analyze Resumes"}
+            </button>
           </form>
         </div>
       </div>

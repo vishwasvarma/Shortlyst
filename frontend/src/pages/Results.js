@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useResults } from "../context/ResultsContext";
 import { useNavigate } from "react-router-dom";
+import { exportResults } from "../api";
 
 export default function Results() {
   const { results } = useResults();
@@ -28,6 +29,20 @@ export default function Results() {
     return "badge badge-review";
   };
 
+  const handleExport = async () => {
+    try {
+      const blob = await exportResults();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume_screening_results.csv";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      alert("Failed to download CSV");
+    }
+  };
+
   return (
     <div className="page-wrapper">
       <div className="container-fluid px-5">
@@ -35,12 +50,7 @@ export default function Results() {
 
         {/* CSV DOWNLOAD */}
         <div className="d-flex justify-content-end mb-3">
-          <button
-            className="theme-btn"
-            onClick={() =>
-              (window.location.href = "http://localhost:5000/api/export")
-            }
-          >
+          <button className="theme-btn" onClick={handleExport}>
             Download CSV
           </button>
         </div>
